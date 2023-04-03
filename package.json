@@ -1,0 +1,25 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "[![Actions Status](https://github.com/Artoym1234/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/Artoym1234/frontend-project-12/actions)",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm ci --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "npx start-server -s ./frontend/build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Artoym1234/frontend-project-12.git"
+  },
+  "author": "Art",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Artoym1234/frontend-project-12/issues"
+  },
+  "homepage": "https://github.com/Artoym1234/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.6"
+  }
+}
