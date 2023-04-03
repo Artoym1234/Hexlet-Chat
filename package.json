@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/Artoym1234/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/Artoym1234/frontend-project-12/actions)",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "postinstall": "npm ci --prefix frontend",
+    "postinstall": "cd frontend && npm ci",
     "build": "npm run build --prefix frontend",
     "start": "npx start-server -s ./frontend/build",
     "test": "echo \"Error: no test specified\" && exit 1"
