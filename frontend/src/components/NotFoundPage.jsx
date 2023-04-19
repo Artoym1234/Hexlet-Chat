@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import routes from '../routes.js';
 
 const NotFoundPage = () => {
   const mainPage = 'на главную страницу';
@@ -8,7 +9,7 @@ const NotFoundPage = () => {
       <h1 className="h4 text-muted">404 - Not Found!</h1>
       <p className="text-muted">
         Go Home
-        <Link to="/login">{mainPage}</Link>
+        <Link to={routes.loginPage()}>{mainPage}</Link>
       </p>
     </div>
   );
