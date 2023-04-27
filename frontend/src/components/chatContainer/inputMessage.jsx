@@ -4,14 +4,22 @@ import {
 import Button from 'react-bootstrap/Button';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import React, {
-  useState, useRef, useEffect,
+  useState, useRef, useEffect, useContext,
 } from 'react';
+import ChatContext from '../../contexts/chat';
 
 const InputMessage = () => {
   const [text, setText] = useState('');
+  const chatContext = useContext(ChatContext);
+  const { sendNewMessage, currentChannelId } = chatContext;
 
   const sendMessage = () => {
-    console.log(text);
+    const message = {
+      body: text,
+      channelId: currentChannelId,
+      username: localStorage.username,
+    };
+    sendNewMessage(message);
     setText('');
   };
 
@@ -39,7 +47,7 @@ const InputMessage = () => {
           className="border-0 p-0 ps-2"
           ref={ref}
         />
-        <Button variant="light" type="submit" disabled={text === ''} className="btn btn-group-vertical btn-light">
+        <Button variant="light" type="submit" disabled={text === ''}>
           <ArrowRightSquare width="20" height="20" />
           <span className="visually-hidden">
             Отправить

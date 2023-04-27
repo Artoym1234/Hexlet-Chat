@@ -1,28 +1,32 @@
-import { Col } from 'react-bootstrap';
+import { useContext } from 'react';
 import InputMessage from './inputMessage';
 import OutputMessages from './outputMessage';
+import ChatContext from '../../contexts/chat';
 
-const ChatContainer = () => (
-  <Col className="p-0 h-100">
+const ChatContainer = ({ socket }) => {
+  const chatContext = useContext(ChatContext);
+  const { currentChannelId } = chatContext;
+
+  return (
     <div className="d-flex flex-column h-100">
       <div className="bg-light mb-4 p-3 shadow-sm small">
         <p className="m-0">
           <b>
-            Название чата
+            {currentChannelId}
           </b>
         </p>
         <span className="text-muted">
           {}
         </span>
       </div>
-      <div id="messages-box" className="chat-messages flex-grow-1 overflow-auto px-5 ">
+      <div className="flex-grow-1 overflow-auto px-5 ">
         <OutputMessages />
       </div>
       <div className="mt-auto px-5 py-3">
-        <InputMessage />
+        <InputMessage socket={socket} />
       </div>
     </div>
-  </Col>
-);
+  );
+};
 
 export default ChatContainer;

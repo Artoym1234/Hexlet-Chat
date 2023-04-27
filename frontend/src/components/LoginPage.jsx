@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
@@ -24,30 +24,24 @@ const LoginForm = () => {
       username: '',
       password: '',
     },
-
-    validationSchema: Yup.object({
-      username: Yup.string('Required')
-        .min(0, 'Too Short!')
-        .max(15, 'Too Long!')
+    validationSchema: yup.object().shape({
+      username: yup.string('Required')
         .required('Required'),
-      password: Yup.string()
-        .min(0, 'Too Short!')
-        .max(15, 'Too Long!')
+      password: yup.string()
         .required('Required'),
     }),
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
         const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
-        auth.logIn();
+        auth.logIn(res.data.token, res.data.username);
         const { from } = location.state || {
           from: { pathname: routes.mainPage() },
         };
         navigate(from);
       } catch (err) {
         formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
+        if (err.response.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
           return;
