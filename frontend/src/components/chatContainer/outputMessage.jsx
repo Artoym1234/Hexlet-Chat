@@ -1,21 +1,14 @@
 import { useSelector } from 'react-redux';
-import { useContext, useRef, useEffect } from 'react';
+import { useContext, useRef } from 'react';
 import { selectors } from '../../slices/messagesSlice';
 import ChatContext from '../../contexts/chat';
 
 const OutputMessages = () => {
   const messages = useSelector(selectors.selectAll);
   const chatContext = useContext(ChatContext);
-  const { currentChannelId } = chatContext;
+  const { currentChannel } = chatContext;
   const lastMessageRef = useRef();
-
-  const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
-
-  useEffect(() => {
-    lastMessageRef.current.scrollIntoView({
-      behavior: 'smooth',
-    });
-  }, [filteredMessages]);
+  const filteredMessages = messages.filter((message) => message.channelId === currentChannel.id);
 
   return (
     <>

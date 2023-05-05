@@ -11,12 +11,12 @@ import ChatContext from '../../contexts/chat';
 const InputMessage = () => {
   const [text, setText] = useState('');
   const chatContext = useContext(ChatContext);
-  const { sendNewMessage, currentChannelId } = chatContext;
+  const { sendNewMessage, currentChannel } = chatContext;
 
   const sendMessage = () => {
     const message = {
       body: text,
-      channelId: currentChannelId,
+      channelId: currentChannel.id,
       username: localStorage.username,
     };
     sendNewMessage(message);

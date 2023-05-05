@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import useAuth from '../hooks/index.jsx';
@@ -12,7 +12,6 @@ const LoginForm = () => {
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,13 +34,10 @@ const LoginForm = () => {
       try {
         const res = await axios.post(routes.loginPath(), values);
         auth.logIn(res.data.token, res.data.username);
-        const { from } = location.state || {
-          from: { pathname: routes.mainPage() },
-        };
-        navigate(from);
+        navigate('/');
       } catch (err) {
         formik.setSubmitting(false);
-        if (err.response.status === 401) {
+        if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
           return;

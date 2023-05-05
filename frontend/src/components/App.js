@@ -13,8 +13,7 @@ const PrivateRoute = ({ children }) => {
   return auth.loggedIn ? children : <Navigate to={routes.loginPage()} />;
 };
 
-const App = () => (
-
+const App = ({ socket }) => (
   <AuthProvider>
     <Header />
     <Routes>
@@ -24,7 +23,7 @@ const App = () => (
         path={routes.mainPage()}
         element={
           <PrivateRoute>
-            <SocketProvider>
+            <SocketProvider socket={socket}>
               <MainPage />
             </SocketProvider>
           </PrivateRoute>
@@ -32,7 +31,5 @@ const App = () => (
       />
     </Routes>
   </AuthProvider>
-
 );
-
 export default App;

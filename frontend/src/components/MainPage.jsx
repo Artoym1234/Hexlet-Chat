@@ -8,22 +8,19 @@ import { actions as messagesAction } from '../slices/messagesSlice';
 import routes from '../routes.js';
 import ChatContext from '../contexts/chat';
 
-const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
-  }
-  return {};
-};
-
 const MainPage = () => {
   const dispatch = useDispatch();
   const chatContext = useContext(ChatContext);
   const { getNewMessage } = chatContext;
   useEffect(() => {
     const fetchContent = async () => {
+      const tokenForRequest = `Bearer ${localStorage.getItem('token')}`;
       try {
-        const { data } = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
+        const { data } = await axios.get(routes.usersPath(), {
+          headers: {
+            Authorization: tokenForRequest,
+          },
+        });
         dispatch(channelsAction.addChannels(data.channels));
         dispatch(messagesAction.addMessages(data.messages));
       } catch (e) {
