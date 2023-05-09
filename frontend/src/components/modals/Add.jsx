@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useSelector } from 'react-redux';
-// import { toast } from 'react-toastify';
 import { selectors } from '../../slices/channelsSlice';
 import ChatContext from '../../contexts/chat';
 import AuthContext from '../../contexts/index';

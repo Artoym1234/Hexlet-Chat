@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import NotFoundPage from './NotFoundPage.jsx';
 import MainPage from './MainPage.jsx';
 import LoginPage from './LoginPage.jsx';
+import Signup from './Signup.jsx';
 import Header from './Header.jsx';
 import useAuth from '../hooks/index.jsx';
 import AuthProvider from '../contexts/AuthProvider.jsx';
@@ -19,6 +20,7 @@ const App = ({ socket }) => (
     <Routes>
       <Route path={routes.notFoundPage()} element={<NotFoundPage />} />
       <Route path={routes.loginPage()} element={<LoginPage />} />
+      <Route path={routes.signUpPage()} element={<Signup />} />
       <Route
         path={routes.mainPage()}
         element={

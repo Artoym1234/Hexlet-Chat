@@ -29,21 +29,22 @@ const LoginForm = () => {
       password: yup.string()
         .required('Required'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       setAuthFailed(false);
-      try {
-        const res = await axios.post(routes.loginPath(), values);
-        auth.logIn(res.data.token, res.data.username);
-        navigate('/');
-      } catch (err) {
-        formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
+      axios.post(routes.loginPath(), values)
+        .then((response) => {
+          auth.logIn(response.data.token, response.data.username);
+          navigate('/');
+        })
+        .catch((err) => {
+          formik.setSubmitting(false);
+          if (err.isAxiosError && err.response.status === 401) {
+            setAuthFailed(true);
+            inputRef.current.select();
+            return;
+          }
           setAuthFailed(true);
-          inputRef.current.select();
-          return;
-        }
-        throw err;
-      }
+        });
     },
   });
 
