@@ -1,18 +1,25 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, {
+  useRef, useEffect, useContext, useState,
+} from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/index.jsx';
 import routes from '../routes.js';
 import avatar from '../images/avatar.jpg';
+import AuthContext from '../contexts/index';
 
 const LoginForm = () => {
+  const { t } = useTranslation();
+  const authContext = useContext(AuthContext);
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
+  const { notify } = authContext;
 
   useEffect(() => {
     inputRef.current.focus();
@@ -29,6 +36,7 @@ const LoginForm = () => {
       password: yup.string()
         .required('Required'),
     }),
+
     onSubmit: (values) => {
       setAuthFailed(false);
       axios.post(routes.loginPath(), values)
@@ -38,12 +46,16 @@ const LoginForm = () => {
         })
         .catch((err) => {
           formik.setSubmitting(false);
-          if (err.isAxiosError && err.response.status === 401) {
-            setAuthFailed(true);
-            inputRef.current.select();
-            return;
+          if (err.isAxiosError) {
+            if (err.message === 'Network Error') {
+              notify('error', t('feedback.error_network'));
+              return;
+            }
+            if (err.response.status === 401) {
+              setAuthFailed(true);
+              inputRef.current.select();
+            }
           }
-          setAuthFailed(true);
         });
     },
   });
@@ -61,7 +73,7 @@ const LoginForm = () => {
                 onSubmit={formik.handleSubmit}
                 className="col-12 col-md-6 mt-3 mt-mb-0"
               >
-                <h1 className="text-center mb-4">Войти</h1>
+                <h1 className="text-center mb-4">{t('logIn.title')}</h1>
 
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -75,13 +87,13 @@ const LoginForm = () => {
                     }
                     required
                     isInvalid={authFailed}
-                    placeholder="Ваш ник"
+                    placeholder={t('placeholder.username_login')}
                     autocomplite="username"
                     onChange={formik.handleChange}
                     value={formik.values.username}
                     ref={inputRef}
                   />
-                  <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                  <Form.Label htmlFor="username">{t('placeholder.username_login')}</Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-4">
                   <Form.Control
@@ -95,14 +107,14 @@ const LoginForm = () => {
                     }
                     required
                     isInvalid={authFailed}
-                    placeholder="Пароль"
+                    placeholder={t('placeholder.password')}
                     autoсomplite="password"
                     onChange={formik.handleChange}
                     value={formik.values.password}
                   />
-                  <Form.Label htmlFor="password">Пароль</Form.Label>
+                  <Form.Label htmlFor="password">{t('placeholder.password')}</Form.Label>
                   <Form.Control.Feedback type="invalid">
-                    Неверные имя пользователя или пароль
+                    {t('logIn.errors.authorization')}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Button
@@ -110,14 +122,14 @@ const LoginForm = () => {
                   variant="outline-primary"
                   className="w-100 btn btn-outline-primary"
                 >
-                  Войти
+                  {t('logIn.button')}
                 </Button>
               </Form>
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>Нет аккаунта?</span>
-                <a href="/signup">Регистрация</a>
+                <span>{t('logIn.new_user')}</span>
+                <a href="/signup">{t('signUp.title')}</a>
               </div>
             </div>
           </div>

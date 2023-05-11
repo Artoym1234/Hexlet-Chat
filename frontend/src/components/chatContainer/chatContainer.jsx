@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import InputMessage from './inputMessage';
 import OutputMessages from './outputMessage';
 import ChatContext from '../../contexts/chat';
@@ -9,6 +10,7 @@ const ChatContainer = () => {
   const chatContext = useContext(ChatContext);
   const { currentChannel } = chatContext;
   const messages = useSelector(selectors.selectAll);
+  const { t } = useTranslation();
 
   const filteredMessages = messages.filter((message) => message.channelId === currentChannel.id);
   return (
@@ -20,7 +22,7 @@ const ChatContainer = () => {
           </b>
         </p>
         <span className="text-muted">
-          {`${filteredMessages.length} сообщений` }
+          {t('chat_container.message', { count: filteredMessages.length })}
         </span>
       </div>
       <div className="flex-grow-1 overflow-auto px-5 ">

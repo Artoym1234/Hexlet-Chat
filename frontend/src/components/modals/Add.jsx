@@ -4,12 +4,14 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { selectors } from '../../slices/channelsSlice';
 import ChatContext from '../../contexts/chat';
 import AuthContext from '../../contexts/index';
 import getValidationSchema from '../../validate';
 
 const Add = (props) => {
+  const { t } = useTranslation();
   const inputRef = useRef();
   const chatContext = useContext(ChatContext);
   const authContext = useContext(AuthContext);
@@ -33,9 +35,9 @@ const Add = (props) => {
       try {
         sendNewChannel(values.nameChannel);
         onHide();
-        notify('success', 'Канал создан');
+        notify('success', t('feedback.channel_add'));
       } catch {
-        notify('error', 'Ошибка');
+        notify('error', t('feedback.error'));
       }
     },
     validateOnChange: false,
@@ -45,7 +47,7 @@ const Add = (props) => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('channels.modal.add_title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
@@ -65,8 +67,8 @@ const Add = (props) => {
             <Form.Control.Feedback type="invalid">{formik.errors.nameChannel}</Form.Control.Feedback>
           </Form.Group>
           <Modal.Footer>
-            <Button variant="secondary" onClick={onHide}>Отменить</Button>
-            <Button type="submit" disabled={formik.isSubmitting}>Добавить</Button>
+            <Button variant="secondary" onClick={onHide}>{t('channels.modal.cancel_button')}</Button>
+            <Button type="submit" disabled={formik.isSubmitting}>{t('channels.modal.send_button')}</Button>
           </Modal.Footer>
         </form>
       </Modal.Body>
