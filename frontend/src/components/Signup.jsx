@@ -47,6 +47,7 @@ const Signup = () => {
           if (err.isAxiosError) {
             if (err.message === 'Network Error') {
               notify('error', t('feedback.error_network'));
+              setAuthFailed(true);
               return;
             }
             if (err.response.status === 409) {
@@ -64,7 +65,7 @@ const Signup = () => {
         <div className="d-flex card shadow-sm">
           <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
             <div>
-              <img src={avatar} alt="Регистрация" className="rounded-circle" />
+              <img src={avatar} alt={t('signUp.title')} className="rounded-circle" />
             </div>
             <Form className="w-50" onSubmit={formik.handleSubmit}>
               <h1 className="text-center mb-4">{t('signUp.title')}</h1>
