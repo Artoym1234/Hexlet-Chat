@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
       {children}
       <ToastContainer
         position="top-right"
-        autoClose={1000}
+        autoClose={4000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -43,7 +43,8 @@ const AuthProvider = ({ children }) => {
         pauseOnHover
         theme="light"
       />
-    </AuthContext.Provider>);
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

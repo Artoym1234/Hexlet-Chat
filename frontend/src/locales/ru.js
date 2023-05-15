@@ -4,13 +4,14 @@ export default {
       button_exit: 'Выйти',
       title: 'Hexlet chat',
     },
+
     logIn: {
       title: 'Войти',
       button: 'Войти',
       new_user: 'Нет аккаунта?',
       errors: {
         authorization: 'Неверные имя пользователя или пароль',
-        // network_error: 'Ой, что-то пошло не так',
+        network_error: 'Ой, что-то пошло не так',
       },
     },
     placeholder: {
@@ -19,21 +20,23 @@ export default {
       password: 'Пароль',
       passwordConfirm: 'Подтвердите пароль',
       input_message: 'Введите сообщение...',
-      new_message: 'Новое сообщение',
+      // new_message: 'Новое сообщение',
     },
     signUp: {
       title: 'Регистрация',
       button: 'Зарегистироваться',
       errors: {
         user_registered: 'Такой пользователь уже существует',
-        // network_error: 'Ой, что-то пошло не так',
+        network_error: 'Ой, что-то пошло не так',
       },
     },
+
     notFound: {
       title: 'Страница не найдена.',
       feedback: 'Но вы можете перейти',
       link: 'на главную страницу.',
     },
+
     channels: {
       title: 'Каналы',
       name: 'Имя канала',
@@ -42,7 +45,7 @@ export default {
       rename: 'Переименовать',
       modal: {
         add_title: 'Добавить канал',
-        rename_title: 'Переименовать канал',
+        rename_title: 'Переименовать',
         remove_title: 'Удалить канал',
         confirm: 'Вы уверены?',
         send_button: 'Отправить',
@@ -59,7 +62,7 @@ export default {
       error: 'Ошибка',
       error_network: 'Ошибка соединения',
       channel_add: 'Канал создан',
-      channel_remove: 'Канал удален',
+      channel_remove: 'Канал удалён',
       channel_rename: 'Канал переименован',
     },
   },

@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import InputMessage from './inputMessage';
-import OutputMessages from './outputMessage';
+import InputMessage from './InputMessage.jsx';
+import OutputMessages from './OutputMessage.jsx';
 import ChatContext from '../../contexts/chat';
 import { selectors } from '../../slices/messagesSlice';
 

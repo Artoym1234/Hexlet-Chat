@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import store from './slices/index';
-import App from './components/App';
+import App from './App.js';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

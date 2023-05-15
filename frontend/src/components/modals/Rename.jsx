@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { selectors } from '../../slices/channelsSlice';
 import getValidationSchema from '../../validate';
 import ChatContext from '../../contexts/chat';
@@ -15,7 +16,7 @@ const Rename = (props) => {
   const { onHide, channel } = props;
   const chatContext = useContext(ChatContext);
   const authContext = useContext(AuthContext);
-  const { renameChannel } = chatContext;
+  const { chatApi } = chatContext;
   const { notify } = authContext;
   const inputRef = useRef();
 
@@ -28,13 +29,14 @@ const Rename = (props) => {
       nameChannel: channel.name,
     },
     validationSchema: schema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       try {
-        renameChannel(channel.id, values.nameChannel);
-        onHide();
+        await chatApi.renameChannel(channel.id, values.nameChannel);
         notify('success', t('feedback.channel_rename'));
-      } catch {
-        notify('error', t('feedback.error'));
+        onHide();
+      } catch (error) {
+        notify('error', t('feedback.error_network'));
+        formik.setSubmitting(false);
       }
     },
     validateOnChange: false,
@@ -43,10 +45,10 @@ const Rename = (props) => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  }, [formik.touched.name]);
 
   return (
-    <Modal show>
+    <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>{t('channels.modal.rename_title')}</Modal.Title>
       </Modal.Header>
@@ -65,6 +67,12 @@ const Rename = (props) => {
               ref={inputRef}
             />
             <Form.Control.Feedback type="invalid">{formik.errors.nameChannel}</Form.Control.Feedback>
+            <FloatingLabel
+              cdhtmlFor="name"
+              controlId="name"
+              label={t('channels.name')}
+              className="visually-hidden"
+            />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

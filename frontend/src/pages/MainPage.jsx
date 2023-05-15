@@ -1,17 +1,20 @@
 import React, { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import ChannelsContainer from './channel';
-import ChatContainer from './chatContainer/chatContainer.jsx';
+import { useTranslation } from 'react-i18next';
+import ChannelsContainer from '../components/channels/ChannelsContainer.jsx';
+import ChatContainer from '../components/chatContainer/ChatContainer.jsx';
 import { actions as channelsAction } from '../slices/channelsSlice';
 import { actions as messagesAction } from '../slices/messagesSlice';
 import routes from '../routes.js';
-import ChatContext from '../contexts/chat';
+import AuthContext from '../contexts/index';
 
 const MainPage = () => {
+  const { t } = useTranslation;
   const dispatch = useDispatch();
-  const chatContext = useContext(ChatContext);
-  const { getNewMessage } = chatContext;
+  const authContext = useContext(AuthContext);
+  const { logOut, notify } = authContext;
+
   useEffect(() => {
     const fetchContent = async () => {
       const tokenForRequest = `Bearer ${localStorage.getItem('token')}`;
@@ -24,12 +27,12 @@ const MainPage = () => {
         dispatch(channelsAction.addChannels(data.channels));
         dispatch(messagesAction.addMessages(data.messages));
       } catch (e) {
-        console.log(e);
+        logOut();
+        notify('error', t('feedback.error_network'));
       }
     };
 
     fetchContent();
-    getNewMessage();
   });
 
   return (

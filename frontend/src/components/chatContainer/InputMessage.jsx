@@ -8,21 +8,28 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import ChatContext from '../../contexts/chat';
+import AuthContext from '../../contexts/index';
 
 const InputMessage = () => {
   const { t } = useTranslation();
   const [text, setText] = useState('');
   const chatContext = useContext(ChatContext);
-  const { sendNewMessage, currentChannel } = chatContext;
+  const { chatApi, currentChannel } = chatContext;
+  const authContext = useContext(AuthContext);
+  const { notify } = authContext;
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     const message = {
       body: text,
       channelId: currentChannel.id,
       username: localStorage.username,
     };
-    sendNewMessage(message);
-    setText('');
+    try {
+      await chatApi.sendNewMessage(message);
+      setText('');
+    } catch {
+      notify('error', t('feedback.error_network'));
+    }
   };
 
   const ref = useRef();

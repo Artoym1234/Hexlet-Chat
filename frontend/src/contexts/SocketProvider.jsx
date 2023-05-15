@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import ChatContext from './chat';
 import { actions as messagesAction } from '../slices/messagesSlice';
 import { actions as channelAction, selectors } from '../slices/channelsSlice';
@@ -9,59 +9,42 @@ const SocketProvider = ({ socket, children }) => {
   const dispatch = useDispatch();
   const channels = useSelector(selectors.selectAll);
 
-  const getNewMessage = () => socket.on('newMessage', (message) => {
+  socket.on('newMessage', (message) => {
     dispatch(messagesAction.addMessage(message));
   });
-  const sendNewMessage = (message) => {
-    socket.emit('newMessage', message, (response) => {
-      if (response.status !== 'ok') {
-        Error(response.status);
-      }
-    });
-  };
-
-  const getNewChannel = () => socket.on('newChannel', (channel) => {
-    dispatch(channelAction.addChannel(channel));
+  socket.on('newChannel', (name) => {
+    dispatch(channelAction.addChannel(name));
+    setCurrentChannel(name);
   });
-  const sendNewChannel = (name) => socket.emit('newChannel', { name }, (response) => {
-    setCurrentChannel(response.data);
-  });
-
-  const subscribeRemoveChannel = () => socket.on('removeChannel', (payload) => {
+  socket.on('removeChannel', (payload) => {
     dispatch(channelAction.removeChannel(payload.id));
     setCurrentChannel(channels[0]);
   });
-  const removeChannel = (id) => {
-    socket.emit('removeChannel', { id }, () => {
-      setCurrentChannel(channels[0]);
-      subscribeRemoveChannel();
-    });
-  };
-
-  const subscribeRenameChannel = () => socket.on('renameChannel', (payload) => {
+  socket.on('renameChannel', (payload) => {
     dispatch(channelAction.renameChannel({ id: payload.id, changes: payload }));
-    setCurrentChannel(payload);
   });
-  const renameChannel = (id, name) => {
-    socket.emit('renameChannel', { id, name });
-    subscribeRenameChannel();
+
+  const createSocketMessage = useCallback((event, data) => new Promise(
+    (resolve, reject) => {
+      socket.timeout(5000).volatile.emit(event, data, (err) => {
+        if (err) {
+          reject(err);
+        }
+        resolve();
+      });
+    },
+  ), [socket]);
+
+  const chatApi = {
+    sendNewMessage: (message) => createSocketMessage('newMessage', message),
+    sendNewChannel: (name) => createSocketMessage('newChannel', { name }),
+    removeChannel: (id) => createSocketMessage('removeChannel', { id }),
+    renameChannel: (id, name) => createSocketMessage('renameChannel', { id, name }),
   };
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <ChatContext.Provider value={{
-      getNewMessage,
-      sendNewMessage,
-      getNewChannel,
-      currentChannel,
-      setCurrentChannel,
-      sendNewChannel,
-      removeChannel,
-      subscribeRemoveChannel,
-      renameChannel,
-      subscribeRenameChannel,
-    }}
-    >
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <ChatContext.Provider value={{ chatApi, currentChannel, setCurrentChannel }}>
       {children}
     </ChatContext.Provider>
   );

@@ -58,6 +58,7 @@
   },
   "start": "serve build -s -n -L -p $PORT",
   "devDependencies": {
+    "@playwright/test": "^1.33.0",
     "eslint": "^8.38.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-functional": "^5.0.8",

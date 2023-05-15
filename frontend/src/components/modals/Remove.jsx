@@ -10,21 +10,21 @@ const Remove = (props) => {
   const { onHide, channel } = props;
   const chatContext = useContext(ChatContext);
   const authContext = useContext(AuthContext);
-  const { removeChannel } = chatContext;
+  const { chatApi } = chatContext;
   const { notify } = authContext;
 
-  const remove = (id) => {
+  const remove = async (id) => {
     try {
-      removeChannel(id);
+      await chatApi.removeChannel(id);
       onHide();
       notify('success', t('feedback.channel_remove'));
     } catch {
-      notify('error', t('feedback.error'));
+      notify('error', t('feedback.error_network'));
     }
   };
 
   return (
-    <Modal show>
+    <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>{t('channels.modal.remove_title')}</Modal.Title>
       </Modal.Header>

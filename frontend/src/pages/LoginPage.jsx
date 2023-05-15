@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import useAuth from '../hooks/index.jsx';
 import routes from '../routes.js';
 import avatar from '../images/avatar.jpg';
 import AuthContext from '../contexts/index';
+import Tooltip from '../components/Tooltip';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -18,6 +20,7 @@ const LoginForm = () => {
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
+  const pasRef = useRef();
   const navigate = useNavigate();
   const { notify } = authContext;
 
@@ -31,7 +34,7 @@ const LoginForm = () => {
       password: '',
     },
     validationSchema: yup.object().shape({
-      username: yup.string('Required')
+      username: yup.string()
         .required('Required'),
       password: yup.string()
         .required('Required'),
@@ -48,7 +51,7 @@ const LoginForm = () => {
           formik.setSubmitting(false);
           if (err.isAxiosError) {
             if (err.message === 'Network Error') {
-              notify('error', t('feedback.error_network'));
+              notify('error', t('logIn.errors.network_error'));
               return;
             }
             if (err.response.status === 401) {
@@ -75,47 +78,62 @@ const LoginForm = () => {
               >
                 <h1 className="text-center mb-4">{t('logIn.title')}</h1>
 
-                <Form.Group className="form-floating mb-3">
-                  <Form.Control
-                    id="username"
-                    name="username"
-                    type="login"
-                    className={
+                <Form.Group className="mb-3">
+                  <FloatingLabel
+                    controlId="username"
+                    label={t('placeholder.username_login')}
+                    className="mb-3"
+                  >
+                    <Form.Control
+                      // id="username"
+                      name="username"
+                      type="login"
+                      className={
                       authFailed
                         ? 'mb-3 form-control is-invalid'
                         : 'mb-3 form-control'
                     }
-                    required
-                    isInvalid={authFailed}
-                    placeholder={t('placeholder.username_login')}
-                    autocomplite="username"
-                    onChange={formik.handleChange}
-                    value={formik.values.username}
-                    ref={inputRef}
-                  />
-                  <Form.Label htmlFor="username">{t('placeholder.username_login')}</Form.Label>
+                      required
+                      isInvalid={authFailed}
+                      placeholder={t('placeholder.username_login')}
+                      autocomplite="username"
+                      onChange={formik.handleChange}
+                      value={formik.values.username}
+                      ref={inputRef}
+                    />
+                  </FloatingLabel>
                 </Form.Group>
-                <Form.Group className="form-floating mb-4">
-                  <Form.Control
-                    id="password"
-                    name="password"
-                    type="password"
-                    className={
+
+                <Form.Group className="mb-4">
+                  <FloatingLabel
+                    controlId="password"
+                    label={t('placeholder.password')}
+                    className="mb-3"
+                  >
+                    <Form.Control
+                      // id="password"
+                      name="password"
+                      type="password"
+                      className={
                       authFailed
                         ? 'mb-3 form-control is-invalid'
                         : 'mb-3 form-control'
                     }
-                    required
-                    isInvalid={authFailed}
-                    placeholder={t('placeholder.password')}
-                    autoсomplite="password"
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                  />
-                  <Form.Label htmlFor="password">{t('placeholder.password')}</Form.Label>
-                  <Form.Control.Feedback type="invalid">
-                    {t('logIn.errors.authorization')}
-                  </Form.Control.Feedback>
+                      required
+                      isInvalid={authFailed}
+                      placeholder={t('placeholder.password')}
+                      autoсomplite="password"
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                      ref={pasRef}
+                    />
+                    <Tooltip
+                      target={pasRef.current}
+                      show={authFailed}
+                      text={t('logIn.errors.authorization')}
+                    />
+                  </FloatingLabel>
+
                 </Form.Group>
                 <Button
                   type="submit"
