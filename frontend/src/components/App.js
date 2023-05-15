@@ -31,7 +31,7 @@ const App = ({ socket }) => {
     });
 
   const rollbarConfig = {
-    accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+    accessToken: '0b68d0c41ccb45fe997c9879e21fa3d7',
     environment: 'production',
   };
 
