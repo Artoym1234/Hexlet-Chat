@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import i18next from 'i18next';
+// import Rollbar from 'rollbar';
+import { Provider, ErrorBoundary } from '@rollbar/react';
 import { initReactI18next } from 'react-i18next';
 import NotFoundPage from './NotFoundPage.jsx';
 import MainPage from './MainPage.jsx';
@@ -28,25 +30,35 @@ const App = ({ socket }) => {
       },
     });
 
+  const rollbarConfig = {
+    accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+    environment: 'production',
+  };
+
   return (
-    <AuthProvider>
-      <Header />
-      <Routes>
-        <Route path={routes.notFoundPage()} element={<NotFoundPage />} />
-        <Route path={routes.loginPage()} element={<LoginPage />} />
-        <Route path={routes.signUpPage()} element={<Signup />} />
-        <Route
-          path={routes.mainPage()}
-          element={
-            <PrivateRoute>
-              <SocketProvider socket={socket}>
-                <MainPage />
-              </SocketProvider>
-            </PrivateRoute>
+    <Provider config={rollbarConfig}>
+      <ErrorBoundary>
+        <AuthProvider>
+          <Header />
+          <Routes>
+            <Route path={routes.notFoundPage()} element={<NotFoundPage />} />
+            <Route path={routes.loginPage()} element={<LoginPage />} />
+            <Route path={routes.signUpPage()} element={<Signup />} />
+            <Route
+              path={routes.mainPage()}
+              element={
+                <PrivateRoute>
+                  <SocketProvider socket={socket}>
+                    <MainPage />
+                  </SocketProvider>
+                </PrivateRoute>
           }
-        />
-      </Routes>
-    </AuthProvider>
+            />
+          </Routes>
+        </AuthProvider>
+      </ErrorBoundary>
+    </Provider>
+
   );
 };
 
