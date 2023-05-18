@@ -60,7 +60,7 @@ const App = ({ socket }) => {
                     <MainPage />
                   </SocketProvider>
                 </PrivateRoute>
-              )}
+            )}
             />
           </Routes>
         </AuthProvider>
