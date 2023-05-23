@@ -4,7 +4,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from './index.jsx';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const stateInit = localStorage.token;
+  const [loggedIn, setLoggedIn] = useState(stateInit);
 
   const logIn = (token, username) => {
     setLoggedIn(true);

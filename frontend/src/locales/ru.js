@@ -25,6 +25,8 @@ export default {
     signUp: {
       title: 'Регистрация',
       button: 'Зарегистироваться',
+      goToLogin: 'Войдите под своим именем',
+      registered: 'Уже зарегистрированы?',
       errors: {
         user_registered: 'Такой пользователь уже существует',
         network_error: 'Ой, что-то пошло не так',

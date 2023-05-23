@@ -27,8 +27,10 @@ const MainPage = () => {
         dispatch(channelsAction.addChannels(data.channels));
         dispatch(messagesAction.addMessages(data.messages));
       } catch (e) {
-        logOut();
-        notify('error', t('feedback.error_network'));
+        if (e.response.status === 401) {
+          logOut();
+          notify('error', t('feedback.error_network'));
+        }
       }
     };
 
