@@ -83,81 +83,83 @@ const Signup = () => {
               </div>
               <Form className="w-50" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('signUp.title')}</h1>
-                <Form.Group className="mb-3">
-                  <FloatingLabel controlId="username" label={t('placeholder.username')} className="mb-3">
-                    <Form.Control
+                <fieldset disabled={formik.isSubmitting}>
+                  <Form.Group className="mb-3">
+                    <FloatingLabel controlId="username" label={t('placeholder.username')} className="mb-3">
+                      <Form.Control
                     // id="username"
-                      name="username"
-                      value={formik.values.username}
-                      placeholder={t('placeholder.username')}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      ref={targetUsername}
-                      className={formik.touched.username
+                        name="username"
+                        value={formik.values.username}
+                        placeholder={t('placeholder.username')}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        ref={targetUsername}
+                        className={formik.touched.username
                     && formik.errors.username ? 'is-invalid' : ''}
-                      isInvalid={!!formik.errors.username}
+                        isInvalid={!!formik.errors.username}
+                      />
+                    </FloatingLabel>
+                    <Tooltip
+                      target={targetUsername.current}
+                      show={formik.errors.username && formik.touched.username}
+                      text={formik.errors.username}
                     />
-                  </FloatingLabel>
-                  <Tooltip
-                    target={targetUsername.current}
-                    show={formik.errors.username && formik.touched.username}
-                    text={formik.errors.username}
-                  />
-                </Form.Group>
+                  </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <FloatingLabel controlId="password" label={t('placeholder.password')} className="mb-3">
-                    <Form.Control
-                      name="password"
-                      type="password"
+                  <Form.Group className="mb-3">
+                    <FloatingLabel controlId="password" label={t('placeholder.password')} className="mb-3">
+                      <Form.Control
+                        name="password"
+                        type="password"
                     // id="password"
-                      placeholder={t('placeholder.password')}
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      ref={targetPassword}
-                      className={formik.touched.username
+                        placeholder={t('placeholder.password')}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        ref={targetPassword}
+                        className={formik.touched.username
                       && formik.errors.username ? 'is-invalid' : ''}
-                      isInvalid={!!formik.errors.password}
+                        isInvalid={!!formik.errors.password}
+                      />
+                    </FloatingLabel>
+                    <Tooltip
+                      target={targetPassword.current}
+                      show={formik.errors.password && formik.touched.password}
+                      text={formik.errors.password}
                     />
-                  </FloatingLabel>
-                  <Tooltip
-                    target={targetPassword.current}
-                    show={formik.errors.password && formik.touched.password}
-                    text={formik.errors.password}
-                  />
-                </Form.Group>
+                  </Form.Group>
 
-                <Form.Group className="mb-4">
-                  <FloatingLabel controlId="passwordConfirm" label={t('placeholder.passwordConfirm')} className="mb-3">
-                    <Form.Control
-                      name="passwordConfirm"
-                      type="password"
+                  <Form.Group className="mb-4">
+                    <FloatingLabel controlId="passwordConfirm" label={t('placeholder.passwordConfirm')} className="mb-3">
+                      <Form.Control
+                        name="passwordConfirm"
+                        type="password"
                     // id="passwordConfirm"
-                      placeholder={t('placeholder.passwordConfirm')}
-                      value={formik.values.passwordConfirm}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      ref={targetPasswordConf}
-                      className={formik.touched.username
+                        placeholder={t('placeholder.passwordConfirm')}
+                        value={formik.values.passwordConfirm}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        ref={targetPasswordConf}
+                        className={formik.touched.username
                       && formik.errors.username ? 'is-invalid' : ''}
-                      isInvalid={!!formik.errors.passwordConfirm}
+                        isInvalid={!!formik.errors.passwordConfirm}
+                      />
+                    </FloatingLabel>
+                    <Tooltip
+                      target={targetPasswordConf.current}
+                      show={formik.errors.passwordConfirm && formik.touched.passwordConfirm}
+                      text={formik.errors.passwordConfirm}
                     />
-                  </FloatingLabel>
-                  <Tooltip
-                    target={targetPasswordConf.current}
-                    show={formik.errors.passwordConfirm && formik.touched.passwordConfirm}
-                    text={formik.errors.passwordConfirm}
-                  />
-                </Form.Group>
+                  </Form.Group>
 
-                {authFailed ? <div className="invalid-feedback d-block">{t('signUp.errors.user_registered')}</div> : null}
+                  {authFailed ? <div className="invalid-feedback d-block">{t('signUp.errors.user_registered')}</div> : null}
 
-                <Button className="w-100" variant="outline-primary" type="submit">
-                  {t('signUp.button')}
-                </Button>
-
+                  <Button className="w-100" variant="outline-primary" type="submit">
+                    {t('signUp.button')}
+                  </Button>
+                </fieldset>
               </Form>
+
             </div>
             <div className="card-footer text-muted p-4">
               <div className="text-center">

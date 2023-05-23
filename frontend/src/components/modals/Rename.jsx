@@ -53,32 +53,34 @@ const Rename = (props) => {
         <Modal.Title>{t('channels.modal.rename_title')}</Modal.Title>
       </Modal.Header>
       <form onSubmit={formik.handleSubmit}>
-        <Modal.Body>
-          <Form.Group>
-            <Form.Control
-              id="name"
-              required
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.nameChannel}
-              isInvalid={formik.errors.nameChannel}
-              data-testid="nameChannel"
-              name="nameChannel"
-              ref={inputRef}
-            />
-            <Form.Control.Feedback type="invalid">{formik.errors.nameChannel}</Form.Control.Feedback>
-            <FloatingLabel
-              cdhtmlFor="name"
-              controlId="name"
-              label={t('channels.name')}
-              className="visually-hidden"
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={onHide}>{t('channels.modal.cancel_button')}</Button>
-          <Button type="submit" value="submit">{t('channels.rename')}</Button>
-        </Modal.Footer>
+        <fieldset disabled={formik.isSubmitting}>
+          <Modal.Body>
+            <Form.Group>
+              <Form.Control
+                id="name"
+                required
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.nameChannel}
+                isInvalid={formik.errors.nameChannel}
+                data-testid="nameChannel"
+                name="nameChannel"
+                ref={inputRef}
+              />
+              <Form.Control.Feedback type="invalid">{formik.errors.nameChannel}</Form.Control.Feedback>
+              <FloatingLabel
+                cdhtmlFor="name"
+                controlId="name"
+                label={t('channels.name')}
+                className="visually-hidden"
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={onHide}>{t('channels.modal.cancel_button')}</Button>
+            <Button type="submit" value="submit">{t('channels.rename')}</Button>
+          </Modal.Footer>
+        </fieldset>
       </form>
     </Modal>
   );

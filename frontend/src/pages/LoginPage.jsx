@@ -88,71 +88,72 @@ const LoginForm = () => {
                   className="col-12 col-md-6 mt-3 mt-mb-0"
                 >
                   <h1 className="text-center mb-4">{t('logIn.title')}</h1>
-
-                  <Form.Group className="mb-3">
-                    <FloatingLabel
-                      controlId="username"
-                      label={t('placeholder.username_login')}
-                      className="mb-3"
-                    >
-                      <Form.Control
+                  <fieldset disabled={formik.isSubmitting}>
+                    <Form.Group className="mb-3">
+                      <FloatingLabel
+                        controlId="username"
+                        label={t('placeholder.username_login')}
+                        className="mb-3"
+                      >
+                        <Form.Control
                       // id="username"
-                        name="username"
-                        type="login"
-                        className={
+                          name="username"
+                          type="login"
+                          className={
                       authFailed
                         ? 'mb-3 form-control is-invalid'
                         : 'mb-3 form-control'
                     }
-                        required
-                        isInvalid={authFailed}
-                        placeholder={t('placeholder.username_login')}
-                        autocomplite="username"
-                        onChange={formik.handleChange}
-                        value={formik.values.username}
-                        ref={inputRef}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
+                          required
+                          isInvalid={authFailed}
+                          placeholder={t('placeholder.username_login')}
+                          autocomplite="username"
+                          onChange={formik.handleChange}
+                          value={formik.values.username}
+                          ref={inputRef}
+                        />
+                      </FloatingLabel>
+                    </Form.Group>
 
-                  <Form.Group className="mb-4">
-                    <FloatingLabel
-                      controlId="password"
-                      label={t('placeholder.password')}
-                      className="mb-3"
-                    >
-                      <Form.Control
+                    <Form.Group className="mb-4">
+                      <FloatingLabel
+                        controlId="password"
+                        label={t('placeholder.password')}
+                        className="mb-3"
+                      >
+                        <Form.Control
                       // id="password"
-                        name="password"
-                        type="password"
-                        className={
+                          name="password"
+                          type="password"
+                          className={
                       authFailed
                         ? 'mb-3 form-control is-invalid'
                         : 'mb-3 form-control'
                     }
-                        required
-                        isInvalid={authFailed}
-                        placeholder={t('placeholder.password')}
-                        autoсomplite="password"
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
-                        ref={pasRef}
-                      />
-                      <Tooltip
-                        target={pasRef.current}
-                        show={authFailed}
-                        text={t('logIn.errors.authorization')}
-                      />
-                    </FloatingLabel>
+                          required
+                          isInvalid={authFailed}
+                          placeholder={t('placeholder.password')}
+                          autoсomplite="password"
+                          onChange={formik.handleChange}
+                          value={formik.values.password}
+                          ref={pasRef}
+                        />
+                        <Tooltip
+                          target={pasRef.current}
+                          show={authFailed}
+                          text={t('logIn.errors.authorization')}
+                        />
+                      </FloatingLabel>
 
-                  </Form.Group>
-                  <Button
-                    type="submit"
-                    variant="outline-primary"
-                    className="w-100 btn btn-outline-primary"
-                  >
-                    {t('logIn.button')}
-                  </Button>
+                    </Form.Group>
+                    <Button
+                      type="submit"
+                      variant="outline-primary"
+                      className="w-100 btn btn-outline-primary"
+                    >
+                      {t('logIn.button')}
+                    </Button>
+                  </fieldset>
                 </Form>
               </div>
               <div className="card-footer text-muted p-4">
