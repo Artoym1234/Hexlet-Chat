@@ -57,7 +57,7 @@ const Rename = (props) => {
           <Modal.Body>
             <Form.Group>
               <Form.Control
-                id="name"
+                // id="name"
                 required
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

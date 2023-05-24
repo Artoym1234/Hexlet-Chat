@@ -22,6 +22,7 @@ const SocketProvider = ({ socket, children }) => {
   });
   socket.on('renameChannel', (payload) => {
     dispatch(channelAction.renameChannel({ id: payload.id, changes: payload }));
+    setCurrentChannel(payload);
   });
 
   const createSocketMessage = useCallback((event, data) => new Promise(
