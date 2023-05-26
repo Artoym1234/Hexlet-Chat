@@ -10,8 +10,8 @@ const ChannelItem = (props) => {
   const { t } = useTranslation();
   const {
     channel,
-    currentChannel,
-    setCurrentChannel,
+    activeChannelId,
+    handleClick,
     showModal,
   } = props;
 
@@ -21,10 +21,10 @@ const ChannelItem = (props) => {
         ? (
           <button
             type="button"
-            onClick={() => setCurrentChannel(channel)}
             className={cn('w-100', 'rounded-0', 'text-start', 'btn', {
-              'btn-secondary': channel.id === currentChannel.id,
+              'btn-secondary': channel.id === activeChannelId,
             })}
+            onClick={() => handleClick(channel.id)}
           >
             <span>#</span>
             {' '}
@@ -32,12 +32,12 @@ const ChannelItem = (props) => {
           </button>
         )
         : (
-          <Dropdown as={ButtonGroup} className="d-flex">
+          <Dropdown as={ButtonGroup} className="d-flex btn-group">
             <Button
               type="button"
-              variant={channel.id === currentChannel.id && 'secondary'}
-              onClick={() => setCurrentChannel(channel)}
-              className="w-100 rounded-0 text-start text-truncate"
+              onClick={() => handleClick(channel.id)}
+              variant={channel.id === activeChannelId ? 'secondary' : 'light'}
+              className="w-100 rounded-0 text-start text-truncate  "
             >
               <span className="me-1">#</span>
               {' '}
@@ -45,25 +45,21 @@ const ChannelItem = (props) => {
             </Button>
             <Dropdown.Toggle
               split
-              variant={channel.id === currentChannel.id && 'secondary'}
+              variant={channel.id === activeChannelId ? 'secondary' : 'light'}
               id={`dropdown-split-basic-${channel.id}`}
             >
-              <span className="visually-hidden">
-                {t('channels.control')}
-              </span>
+              <span className="visually-hidden">{t('channels.control')}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item
                 href="#"
                 onClick={() => showModal('removing', channel)}
-              >
-                {t('channels.remove')}
+              >{t('channels.remove')}
               </Dropdown.Item>
               <Dropdown.Item
                 href="#"
                 onClick={() => showModal('renaming', channel)}
-              >
-                {t('channels.rename')}
+              >{t('channels.rename')}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

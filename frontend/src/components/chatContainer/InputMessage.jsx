@@ -2,6 +2,7 @@ import {
   Form, InputGroup,
 } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import { useSelector } from 'react-redux';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import React, {
   useState, useRef, useEffect, useContext,
@@ -14,14 +15,19 @@ const InputMessage = () => {
   const { t } = useTranslation();
   const [text, setText] = useState('');
   const chatContext = useContext(ChatContext);
-  const { chatApi, currentChannel } = chatContext;
+  const { chatApi } = chatContext;
   const authContext = useContext(AuthContext);
   const { notify } = authContext;
+
+  const activeChannelId = useSelector((state) => {
+    const { currentChannelId } = state.channels;
+    return currentChannelId;
+  });
 
   const sendMessage = async () => {
     const message = {
       body: text,
-      channelId: currentChannel.id,
+      channelId: activeChannelId,
       username: localStorage.username,
     };
     try {

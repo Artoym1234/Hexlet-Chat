@@ -1,15 +1,19 @@
 import { useSelector } from 'react-redux';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import LeoProfanity from 'leo-profanity';
 import { selectors } from '../../slices/messagesSlice';
-import ChatContext from '../../contexts/chat';
+// import ChatContext from '../../contexts/chat';
 
 const OutputMessages = () => {
+  const activeChannelId = useSelector((state) => {
+    const { currentChannelId } = state.channels;
+    return currentChannelId;
+  });
   const messages = useSelector(selectors.selectAll);
-  const chatContext = useContext(ChatContext);
-  const { currentChannel } = chatContext;
+  // const chatContext = useContext(ChatContext);
+  // const { currentChannel } = chatContext;
   const lastMessageRef = useRef();
-  const filteredMessages = messages.filter((message) => message.channelId === currentChannel.id);
+  const filteredMessages = messages.filter((message) => message.channelId === activeChannelId);
 
   const filterWords = LeoProfanity;
   const ruWords = filterWords.getDictionary('ru');

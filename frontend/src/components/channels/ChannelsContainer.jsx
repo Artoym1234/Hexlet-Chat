@@ -1,14 +1,12 @@
 import {
   Button,
 } from 'react-bootstrap';
-import React, {
-  useContext, useState,
-} from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
-import { selectors } from '../../slices/channelsSlice';
-import ChatContext from '../../contexts/chat';
+import { actions as channelsActions, selectors } from '../../slices/channelsSlice';
+// import ChatContext from '../../contexts/chat';
 import getModal from '../modals/index';
 import ChannelItem from './ChannelItem';
 
@@ -22,13 +20,26 @@ const renderModal = (modalInfo, hideModal) => {
 
 const ChannelsContainer = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const channels = useSelector(selectors.selectAll);
-  const chatContext = useContext(ChatContext);
-  const { currentChannel, setCurrentChannel } = chatContext;
+  const activeChannelId = useSelector((state) => {
+    const { currentChannelId } = state.channels;
+    return currentChannelId;
+  });
+  // const activeChannelId = useSelector(({ channels }) => channels.currentChannelId);
+
   const [modalInfo, setModalInfo] = useState({ type: null, channelId: null });
   const showModal = (nameModal, channel = null) => setModalInfo({ type: nameModal, channel });
   const hideModal = () => setModalInfo({ type: null, channel: null });
 
+  // const chatContext = useContext(ChatContext);
+  // const { currentChannel, setCurrentChannel } = chatContext;
+
+  const handleClick = (id) => {
+    dispatch(channelsActions.setCurrentChannelId(id));
+  };
+  const lastChannelsIdx = channels.length;
+  // console.log(channels.length);
   return (
     <>
       <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
@@ -48,8 +59,9 @@ const ChannelsContainer = () => {
           <ChannelItem
             key={channel.id}
             channel={channel}
-            currentChannel={currentChannel}
-            setCurrentChannel={setCurrentChannel}
+            activeChannelId={activeChannelId}
+            handleClick={(id) => handleClick(id)}
+            lastChannelsIdx={lastChannelsIdx}
             showModal={showModal}
           />
         ))}

@@ -1,28 +1,28 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
 import ChatContext from './chat';
 import { actions as messagesAction } from '../slices/messagesSlice';
-import { actions as channelAction, selectors } from '../slices/channelsSlice';
+import { actions as channelAction } from '../slices/channelsSlice';
 
 const SocketProvider = ({ socket, children }) => {
-  const [currentChannel, setCurrentChannel] = useState({ id: 1, name: 'general' });
+  // const [currentChannel, setCurrentChannel] = useState({ id: 1, name: 'general' });
   const dispatch = useDispatch();
-  const channels = useSelector(selectors.selectAll);
+  // const channels = useSelector(selectors.selectAll);
 
-  socket.on('newMessage', (message) => {
-    dispatch(messagesAction.addMessage(message));
+  socket.on('newMessage', (payload) => {
+    dispatch(messagesAction.addMessage(payload));
   });
-  socket.on('newChannel', (name) => {
-    dispatch(channelAction.addChannel(name));
-    setCurrentChannel(name);
+  socket.on('newChannel', (payload) => {
+    dispatch(channelAction.addChannel(payload));
+    // setCurrentChannel(name);
   });
   socket.on('removeChannel', (payload) => {
     dispatch(channelAction.removeChannel(payload.id));
-    setCurrentChannel(channels[0]);
+    // setCurrentChannel(channels[0]);
   });
   socket.on('renameChannel', (payload) => {
-    dispatch(channelAction.renameChannel({ id: payload.id, changes: payload }));
-    setCurrentChannel(payload);
+    dispatch(channelAction.renameChannel({ id: payload.id, changes: { name: payload.name } }));
+    // setCurrentChannel(payload);
   });
 
   const createSocketMessage = useCallback((event, data) => new Promise(
@@ -45,7 +45,7 @@ const SocketProvider = ({ socket, children }) => {
 
   return (
   // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <ChatContext.Provider value={{ chatApi, currentChannel, setCurrentChannel }}>
+    <ChatContext.Provider value={{ chatApi }}>
       {children}
     </ChatContext.Provider>
   );

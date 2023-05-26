@@ -49,7 +49,7 @@ const LoginForm = () => {
       axios.post(routes.loginPath(), values)
         .then((response) => {
           auth.logIn(response.data.token, response.data.username);
-          console.log(response);
+          // console.log(response);
           if (response.status === 200) {
             setLoading(false);
             navigate('/');
