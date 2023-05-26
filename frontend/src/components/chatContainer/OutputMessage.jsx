@@ -10,6 +10,7 @@ const OutputMessages = () => {
     return currentChannelId;
   });
   const messages = useSelector(selectors.selectAll);
+
   // const chatContext = useContext(ChatContext);
   // const { currentChannel } = chatContext;
   const lastMessageRef = useRef();

@@ -1,4 +1,4 @@
-// import { useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import InputMessage from './InputMessage.jsx';
@@ -20,6 +20,12 @@ const ChatContainer = () => {
 
   const filteredMessages = messages.filter((message) => message.channelId === activeChannelId);
   const currentChannel = channels.find((channel) => channel.id === activeChannelId);
+
+  useEffect(() => {
+    const block = document.getElementById('messages-box');
+    block.scrollTop = block.scrollHeight;
+  });
+
   return (
     <div className="d-flex flex-column h-100">
       <div className="bg-light mb-4 p-3 shadow-sm small">
@@ -32,7 +38,7 @@ const ChatContainer = () => {
           {t('chat_container.message', { count: filteredMessages.length })}
         </span>
       </div>
-      <div className="flex-grow-1 overflow-auto px-5 ">
+      <div id="messages-box" className="flex-grow-1 overflow-auto px-5 ">
         <OutputMessages />
       </div>
       <div className="mt-auto px-5 py-3">
