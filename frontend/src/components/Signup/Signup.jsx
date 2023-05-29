@@ -9,13 +9,13 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import cn from 'classnames';
-import useAuth from '../hooks/index.jsx';
-import routes from '../routes.js';
-import avatar from '../images/avatar_1.jpg';
+import useAuth from '../commonComponents/hooks/index.jsx';
+import { pageRoutes } from '../../routes.js';
+import avatar from '../../images/avatar_1.jpg';
 import AuthContext from '../contexts/index';
-import getValidationSchema from '../validate.js';
-import Tooltip from '../components/Tooltip.jsx';
-import Loading from '../components/Loading.jsx';
+import getValidationSchema from '../commonComponents/validate.js';
+import Tooltip from '../commonComponents/Tooltip.jsx';
+import Loading from '../commonComponents/Loading.jsx';
 
 const Signup = () => {
   const targetUsername = useRef();
@@ -45,7 +45,7 @@ const Signup = () => {
 
     onSubmit: (values) => {
       setLoading(true);
-      axios.post(routes.signUpPath(), values)
+      axios.post(pageRoutes.signUpPath(), values)
         .then((response) => {
           auth.logIn(response.data.token, response.data.username);
 

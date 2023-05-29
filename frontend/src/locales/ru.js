@@ -67,5 +67,14 @@ export default {
       channel_remove: 'Канал удалён',
       channel_rename: 'Канал переименован',
     },
+    errors: {
+      incorrectChannelNameLength: 'От 3 до 20 символов',
+      incorrectUsernameLength: 'От 3 до 20 символов',
+      incorrectMinPasswordLength: 'Не менее 6 символов',
+      requiredField: 'Обязательное поле',
+      needUnique: 'Должно быть уникальным',
+      shouldConfirm: 'Пароли должны совпадать',
+      // somethingWrong: 'Что-то пошло не так...',
+    },
   },
 };

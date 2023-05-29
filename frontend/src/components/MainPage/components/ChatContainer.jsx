@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import InputMessage from './InputMessage.jsx';
 import OutputMessages from './OutputMessage.jsx';
 // import ChatContext from '../../contexts/chat';
-import { selectors as messagesSelectors } from '../../slices/messagesSlice';
-import { selectors as channelsSelectors } from '../../slices/channelsSlice';
+import { selectors as messagesSelectors } from '../../../slices/messagesSlice';
+import { selectors as channelsSelectors } from '../../../slices/channelsSlice';
 
 const ChatContainer = () => {
   // const chatContext = useContext(ChatContext);

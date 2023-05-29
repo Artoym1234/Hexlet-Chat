@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
 import ChatContext from './chat';
-import { actions as messagesAction } from '../slices/messagesSlice';
-import { actions as channelAction } from '../slices/channelsSlice';
+import { actions as messagesAction } from '../../slices/messagesSlice';
+import { actions as channelAction } from '../../slices/channelsSlice';
 
 const SocketProvider = ({ socket, children }) => {
   // const [currentChannel, setCurrentChannel] = useState({ id: 1, name: 'general' });

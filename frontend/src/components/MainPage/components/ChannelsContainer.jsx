@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
-import { actions as channelsActions, selectors } from '../../slices/channelsSlice';
+import { actions as channelsActions, selectors } from '../../../slices/channelsSlice';
 // import ChatContext from '../../contexts/chat';
-import getModal from '../modals/index';
+import getModal from '../../commonComponents/modals/index';
 import ChannelItem from './ChannelItem';
 
 const renderModal = (modalInfo, hideModal) => {

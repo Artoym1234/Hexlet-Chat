@@ -9,12 +9,12 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import cn from 'classnames';
-import useAuth from '../hooks/index.jsx';
-import routes from '../routes.js';
-import avatar from '../images/avatar.jpg';
+import useAuth from '../commonComponents/hooks/index.jsx';
+import { apiRoutes } from '../../routes.js';
+import avatar from '../../images/avatar.jpg';
 import AuthContext from '../contexts/index';
-import Tooltip from '../components/Tooltip';
-import Loading from '../components/Loading.jsx';
+import Tooltip from '../commonComponents/Tooltip.jsx';
+import Loading from '../commonComponents/Loading.jsx';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -38,15 +38,15 @@ const LoginForm = () => {
     },
     validationSchema: yup.object().shape({
       username: yup.string()
-        .required('Required'),
+        .required('errors.requiredField'),
       password: yup.string()
-        .required('Required'),
+        .required('errors.requiredField'),
     }),
 
     onSubmit: (values) => {
       setAuthFailed(false);
       setLoading(true);
-      axios.post(routes.loginPath(), values)
+      axios.post(apiRoutes.loginPath(), values)
         .then((response) => {
           auth.logIn(response.data.token, response.data.username);
           // console.log(response);

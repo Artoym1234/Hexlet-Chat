@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import ChannelsContainer from '../components/channels/ChannelsContainer.jsx';
-import ChatContainer from '../components/chatContainer/ChatContainer.jsx';
-import { actions as channelsAction } from '../slices/channelsSlice';
-import { actions as messagesAction } from '../slices/messagesSlice';
-import routes from '../routes.js';
+import ChannelsContainer from './components/ChannelsContainer.jsx';
+import ChatContainer from './components/ChatContainer.jsx';
+import { actions as channelsAction } from '../../slices/channelsSlice.js';
+import { actions as messagesAction } from '../../slices/messagesSlice.js';
+import { apiRoutes } from '../../routes.js';
 import AuthContext from '../contexts/index';
 
 const MainPage = () => {
@@ -19,7 +19,7 @@ const MainPage = () => {
     const fetchContent = async () => {
       const tokenForRequest = `Bearer ${localStorage.getItem('token')}`;
       try {
-        const { data } = await axios.get(routes.usersPath(), {
+        const { data } = await axios.get(apiRoutes.usersPath(), {
           headers: {
             Authorization: tokenForRequest,
           },

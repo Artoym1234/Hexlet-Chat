@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks/index.jsx';
+import useAuth from '../commonComponents/hooks/index.jsx';
 
 const Header = () => {
   const auth = useAuth();
