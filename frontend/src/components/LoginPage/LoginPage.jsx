@@ -1,5 +1,5 @@
 import React, {
-  useRef, useEffect, useContext, useState,
+  useRef, useEffect, useState,
 } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -9,23 +9,22 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import cn from 'classnames';
-import useAuth from '../commonComponents/hooks/index.jsx';
-import { apiRoutes } from '../../routes.js';
+import { useAuth } from '../contexts/AuthProvider.jsx';
+import { apiRoutes, pageRoutes } from '../../routes.js';
 import avatar from '../../images/avatar.jpg';
-import AuthContext from '../contexts/index';
 import Tooltip from '../commonComponents/Tooltip.jsx';
 // import Loading from '../commonComponentsLoading.jsx';
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const authContext = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef();
   const pasRef = useRef();
   const navigate = useNavigate();
-  const { notify } = authContext;
+  // const { notify } = authContext;
 
   useEffect(() => {
     inputRef.current.focus();
@@ -49,17 +48,16 @@ const LoginForm = () => {
       axios.post(apiRoutes.loginPath(), values)
         .then((response) => {
           auth.logIn(response.data.token, response.data.username);
-          // console.log(response);
           if (response.status === 200) {
             setLoading(false);
-            navigate('/');
+            navigate(pageRoutes.mainPage());
           }
         })
         .catch((err) => {
           formik.setSubmitting(false);
           if (err.isAxiosError) {
             if (err.message === 'Network Error') {
-              notify('error', t('logIn.errors.network_error'));
+              auth.notify('error', t('logIn.errors.network_error'));
               return;
             }
             if (err.response.status === 401) {

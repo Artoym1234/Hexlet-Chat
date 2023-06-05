@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
@@ -8,16 +8,14 @@ import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { selectors } from '../../../slices/channelsSlice';
 import getValidationSchema from '../validate';
-import ChatContext from '../../contexts/chat';
-import AuthContext from '../../contexts/index';
+import { useChatApi } from '../../contexts/SocketProvider.jsx';
+import { useAuth } from '../../contexts/AuthProvider.jsx';
 
 const Rename = (props) => {
   const { t } = useTranslation();
   const { onHide, channel } = props;
-  const chatContext = useContext(ChatContext);
-  const authContext = useContext(AuthContext);
-  const { chatApi } = chatContext;
-  const { notify } = authContext;
+  const { chatApi } = useChatApi();
+  const { notify } = useAuth();
   const inputRef = useRef();
 
   const channels = useSelector(selectors.selectAll);

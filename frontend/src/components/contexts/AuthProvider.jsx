@@ -1,42 +1,48 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, {
+  createContext, useState, useMemo, useCallback,
+  useContext,
+} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AuthContext from './index.jsx';
+
+const AuthContext = createContext({});
+export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
   const stateInit = localStorage.token;
   const [loggedIn, setLoggedIn] = useState(stateInit);
 
-  const logIn = (token, username) => {
+  const logIn = useCallback((token, username) => {
     setLoggedIn(true);
     localStorage.token = token;
     localStorage.username = username;
-  };
+  }, []);
 
-  const logOut = () => {
+  const logOut = useCallback(() => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
-  };
+  }, []);
 
-  /* const getAuthHeader = useCallback(() => {
-    if (loggedIn === true) {
-      return { Authorization: `Bearer ${localStorage.getItem('token')}` };
+  const token = localStorage.getItem('token');
+
+  const getAuthHeader = useCallback(() => {
+    if (localStorage.getItem('token')) {
+      return { Authorization: `Bearer ${token}` };
     }
     return {};
-  }, [loggedIn]); */
-  const getAuthHeader = useCallback(() => ({ Authorization: `Bearer ${localStorage.getItem('token')}` }));
+  }, [token]);
 
-  const notify = (type, text) => {
+  const notify = useCallback((type, text) => {
     if (type === 'success') {
       toast.success(text, { toastId: `${text} sucsess` });
       return;
     }
     toast.error(text, { toatId: `${text} error` });
-  };
+  }, []);
 
   const memo = useMemo(() => ({
     loggedIn, logIn, logOut, notify, getAuthHeader,
-  }), [loggedIn, logIn, logOut]);
+  }), [loggedIn, logIn, logOut, notify, getAuthHeader]);
 
   return (
     <AuthContext.Provider value={memo}>

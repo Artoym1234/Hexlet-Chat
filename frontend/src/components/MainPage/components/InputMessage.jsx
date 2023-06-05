@@ -4,22 +4,19 @@ import {
 import Button from 'react-bootstrap/Button';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import React, {
-  useRef, useEffect, useContext,
+  useRef, useEffect,
 } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import ChatContext from '../../contexts/chat';
-import AuthContext from '../../contexts/index';
+import { useChatApi } from '../../contexts/SocketProvider.jsx';
+import { useAuth } from '../../contexts/AuthProvider.jsx';
 
 const InputMessage = () => {
   const { t } = useTranslation();
-  // const [text] = useState('');
-  const chatContext = useContext(ChatContext);
-  const { chatApi } = chatContext;
-  const authContext = useContext(AuthContext);
-  const { notify } = authContext;
+  const { chatApi } = useChatApi();
+  const { notify } = useAuth();
 
   const activeChannelId = useSelector((state) => {
     const { currentChannelId } = state.channels;

@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useContext,
+  useEffect,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import axios from 'axios';
@@ -9,8 +9,10 @@ import { Button } from 'react-bootstrap';
 import ChannelsContainer from './components/ChannelsContainer.jsx';
 import ChatContainer from './components/ChatContainer.jsx';
 import { selectors as loadingStateSelectors, stateLoad } from '../../slices/loadingSlice.js';
-import AuthContext from '../contexts/index';
+import { useAuth } from '../contexts/AuthProvider.jsx';
 import fetchInitialData from '../../slices/fetchInitialData.js';
+
+// const auth = useAuth();
 
 const handleUpdate = (navigate) => () => {
   navigate(0);
@@ -65,40 +67,23 @@ const ChatContent = () => {
 };
 
 const MainPage = () => {
-  // const { t } = useTranslation;
+  const { t } = useTranslation;
   const dispatch = useDispatch();
-  const authContext = useContext(AuthContext);
-  const { logOut, getAuthHeader } = authContext;
+  // const authContext = useContext(AuthContext);
+  const { logOut, getAuthHeader, notify } = useAuth();
 
   const loadingState = useSelector(loadingStateSelectors.getStatus);
-  // const channels = useSelector(loadingSelectors.allChannels);
-  // console.log(channels);
   useEffect(() => {
     dispatch(fetchInitialData(getAuthHeader()));
-    /* const data = [
-      {
-        id: 1,
-        name: 'general',
-        removable: false,
-      },
-      {
-        id: 2,
-        name: 'random',
-        removable: false,
-      },
-    ];
-    // channelsAction.addChannels(data);
-
-    dispatch(channelsAction.addChannels(data)); */
   }, [dispatch, getAuthHeader]);
 
   switch (loadingState) {
     case stateLoad.error:
-      // notify('error', t('feedback.unauthorized'));
+      notify('error', t('feedback.unauthorized'));
       logOut();
       break;
     case stateLoad.fail:
-      // notify('error', t('feedback.error_network'));
+      notify('error', t('feedback.error_network'));
       break;
     default:
       break;

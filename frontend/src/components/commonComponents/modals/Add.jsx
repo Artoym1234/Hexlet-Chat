@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -7,17 +7,19 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { selectors } from '../../../slices/channelsSlice';
-import ChatContext from '../../contexts/chat';
-import AuthContext from '../../contexts/index';
+// import ChatContext from '../../contexts/chat';
+// import AuthContext from '../../contexts/index';
+import { useChatApi } from '../../contexts/SocketProvider.jsx';
+import { useAuth } from '../../contexts/AuthProvider.jsx';
 import getValidationSchema from '../validate';
 
 const Add = (props) => {
   const { t } = useTranslation();
   const inputRef = useRef();
-  const chatContext = useContext(ChatContext);
-  const authContext = useContext(AuthContext);
-  const { chatApi } = chatContext;
-  const { notify } = authContext;
+  // const chatContext = useContext(ChatContext);
+  // const authContext = useContext(AuthContext);
+  const { chatApi } = useChatApi();
+  const { notify } = useAuth();
   const { onHide } = props;
 
   const channels = useSelector(selectors.selectAll);

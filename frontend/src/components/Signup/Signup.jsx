@@ -1,5 +1,5 @@
 import {
-  useState, useContext, useEffect, useRef,
+  useState, useEffect, useRef,
 } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -9,10 +9,9 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import cn from 'classnames';
-import useAuth from '../commonComponents/hooks/index.jsx';
+import { useAuth } from '../contexts/AuthProvider.jsx';
 import { apiRoutes } from '../../routes.js';
 import avatar from '../../images/avatar_1.jpg';
-import AuthContext from '../contexts/index';
 import getValidationSchema from '../commonComponents/validate.js';
 import Tooltip from '../commonComponents/Tooltip.jsx';
 import Loading from '../commonComponents/Loading.jsx';
@@ -22,13 +21,11 @@ const Signup = () => {
   const targetPassword = useRef();
   const targetPasswordConf = useRef();
   const { t } = useTranslation();
-  const authContext = useContext(AuthContext);
   const [authFailed, setAuthFailed] = useState(false);
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
-  // const inputRef = useRef();
   const navigate = useNavigate();
-  const { notify } = authContext;
+  const { notify } = useAuth();
 
   useEffect(() => {
     targetUsername.current.focus();

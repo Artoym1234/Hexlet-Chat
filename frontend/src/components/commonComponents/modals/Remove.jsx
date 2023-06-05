@@ -1,17 +1,14 @@
-import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
-import ChatContext from '../../contexts/chat';
-import AuthContext from '../../contexts/index';
+import { useChatApi } from '../../contexts/SocketProvider.jsx';
+import { useAuth } from '../../contexts/AuthProvider.jsx';
 
 const Remove = (props) => {
   const { t } = useTranslation();
   const { onHide, channel } = props;
-  const chatContext = useContext(ChatContext);
-  const authContext = useContext(AuthContext);
-  const { chatApi } = chatContext;
-  const { notify } = authContext;
+  const { chatApi } = useChatApi();
+  const { notify } = useAuth();
 
   const remove = async (id) => {
     try {
