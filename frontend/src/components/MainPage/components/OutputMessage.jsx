@@ -15,7 +15,6 @@ const OutputMessages = () => {
   // const { currentChannel } = chatContext;
   const lastMessageRef = useRef();
   const filteredMessages = messages.filter((message) => message.channelId === activeChannelId);
-  // console.log(filteredMessages);
   const filterWords = LeoProfanity;
   const ruWords = filterWords.getDictionary('ru');
   filterWords.add(ruWords);

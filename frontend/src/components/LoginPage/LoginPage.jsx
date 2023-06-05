@@ -14,7 +14,7 @@ import { apiRoutes } from '../../routes.js';
 import avatar from '../../images/avatar.jpg';
 import AuthContext from '../contexts/index';
 import Tooltip from '../commonComponents/Tooltip.jsx';
-import Loading from '../commonComponents/Loading.jsx';
+// import Loading from '../commonComponentsLoading.jsx';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -74,7 +74,7 @@ const LoginForm = () => {
 
   return (
     <div>
-      {loading ? <Loading /> : null};
+
       <div className={cn('container-fluid', 'h-100', { 'd-none': loading === true })}>
         <div className="row justify-content-center align-content-center h-100 p-5">
           <div className="col-12 col-md-8 col-xxl-6">

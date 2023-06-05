@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import cn from 'classnames';
 import useAuth from '../commonComponents/hooks/index.jsx';
-import { pageRoutes } from '../../routes.js';
+import { apiRoutes } from '../../routes.js';
 import avatar from '../../images/avatar_1.jpg';
 import AuthContext from '../contexts/index';
 import getValidationSchema from '../commonComponents/validate.js';
@@ -26,7 +26,7 @@ const Signup = () => {
   const [authFailed, setAuthFailed] = useState(false);
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
-  const inputRef = useRef();
+  // const inputRef = useRef();
   const navigate = useNavigate();
   const { notify } = authContext;
 
@@ -45,10 +45,9 @@ const Signup = () => {
 
     onSubmit: (values) => {
       setLoading(true);
-      axios.post(pageRoutes.signUpPath(), values)
+      axios.post(apiRoutes.signUpPath(), values)
         .then((response) => {
           auth.logIn(response.data.token, response.data.username);
-
           if (response.status === 201) {
             setLoading(false);
             navigate('/');
@@ -62,7 +61,7 @@ const Signup = () => {
               return;
             }
             if (err.response.status === 409) {
-              inputRef.current.select();
+              // inputRef.current.select();
               setAuthFailed(true);
               setLoading(false);
             }

@@ -1,53 +1,113 @@
-import React, { useEffect, useContext } from 'react';
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
+import React, {
+  useEffect, useContext,
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+// import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import ChannelsContainer from './components/ChannelsContainer.jsx';
 import ChatContainer from './components/ChatContainer.jsx';
-import { actions as channelsAction } from '../../slices/channelsSlice.js';
-import { actions as messagesAction } from '../../slices/messagesSlice.js';
-import { apiRoutes } from '../../routes.js';
+import { selectors as loadingStateSelectors, stateLoad } from '../../slices/loadingSlice.js';
 import AuthContext from '../contexts/index';
+import fetchInitialData from '../../slices/fetchInitialData.js';
 
-const MainPage = () => {
-  const { t } = useTranslation;
-  const dispatch = useDispatch();
-  const authContext = useContext(AuthContext);
-  const { logOut, notify } = authContext;
-
-  useEffect(() => {
-    const fetchContent = async () => {
-      const tokenForRequest = `Bearer ${localStorage.getItem('token')}`;
-      try {
-        const { data } = await axios.get(apiRoutes.usersPath(), {
-          headers: {
-            Authorization: tokenForRequest,
-          },
-        });
-        dispatch(channelsAction.addChannels(data.channels));
-        dispatch(messagesAction.addMessages(data.messages));
-      } catch (e) {
-        if (e.response.status === 401) {
-          logOut();
-          notify('error', t('feedback.error_network'));
-        }
-      }
-    };
-
-    fetchContent();
-  });
+const handleUpdate = (navigate) => () => {
+  navigate(0);
+};
+const Loading = () => {
+  const { t } = useTranslation();
 
   return (
-    <div className="container rounded my-4 h-100 overflow-hidden shadow flex-grow-1">
-      <div className="row d-flex flex-row bg-white h-100">
-        <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
-          <ChannelsContainer />
-        </div>
-        <div className="col h-100 p-0">
-          <ChatContainer />
-        </div>
+    <div className="h-100 d-flex justify-content-center align-items-center">
+      <div role="status" className="spinner-border text-primary">
+        <span className="visually-hidden">{t('feedback.loading')}</span>
       </div>
     </div>
+  );
+};
+
+const SomethingWrong = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  return (
+    <div className="h-100 d-flex flex-column justify-content-center align-items-center">
+      <p className="p-2 fst-italic">{t('errors.somethingWrong')}</p>
+      <Button className="p-2" onClick={handleUpdate(navigate)}>{t('errors.update')}</Button>
+    </div>
+  );
+};
+
+const MainContent = () => (
+  <div className="container rounded my-4 h-100 overflow-hidden shadow flex-grow-1">
+    <div className="row d-flex flex-row bg-white h-100">
+      <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
+        <ChannelsContainer />
+      </div>
+      <div className="col h-100 p-0">
+        <ChatContainer />
+      </div>
+    </div>
+  </div>
+
+);
+
+const ChatContent = () => {
+  const loadingState = useSelector(loadingStateSelectors.getStatus);
+  switch (loadingState) {
+    case stateLoad.success:
+      return <MainContent />;
+    case stateLoad.fail:
+      return <SomethingWrong />;
+    default:
+      return <Loading />;
+  }
+};
+
+const MainPage = () => {
+  // const { t } = useTranslation;
+  const dispatch = useDispatch();
+  const authContext = useContext(AuthContext);
+  const { logOut, getAuthHeader } = authContext;
+
+  const loadingState = useSelector(loadingStateSelectors.getStatus);
+  // const channels = useSelector(loadingSelectors.allChannels);
+  // console.log(channels);
+  useEffect(() => {
+    dispatch(fetchInitialData(getAuthHeader()));
+    /* const data = [
+      {
+        id: 1,
+        name: 'general',
+        removable: false,
+      },
+      {
+        id: 2,
+        name: 'random',
+        removable: false,
+      },
+    ];
+    // channelsAction.addChannels(data);
+
+    dispatch(channelsAction.addChannels(data)); */
+  }, [dispatch, getAuthHeader]);
+
+  switch (loadingState) {
+    case stateLoad.error:
+      // notify('error', t('feedback.unauthorized'));
+      logOut();
+      break;
+    case stateLoad.fail:
+      // notify('error', t('feedback.error_network'));
+      break;
+    default:
+      break;
+  }
+
+  return (
+
+    <ChatContent />
+
   );
 };
 

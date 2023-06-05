@@ -1,4 +1,5 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import fetchInitialData from './fetchInitialData.js';
 
 const channelsAdapter = createEntityAdapter();
 const initialState = channelsAdapter.getInitialState({ currentChannelId: 1 });
@@ -7,27 +8,30 @@ const channelSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
-    //  addChannel: channelsAdapter.addOne,
     addChannel: (state, { payload }) => {
       channelsAdapter.addOne(state, payload);
-      // const { channels } = payload;
-
-      // eslint-disable-next-line no-param-reassign
-      // state.currentChannelId = channels;
     },
-    addChannels: channelsAdapter.addMany,
+    addChannels: (state, { payload }) => {
+      channelsAdapter.addMany(state, payload);
+    },
     removeChannel: (state, { payload }) => {
       channelsAdapter.removeOne(state, payload);
       if (state.currentChannelId === payload) {
-        // eslint-disable-next-line no-param-reassign
         state.currentChannelId = 1;
       }
+      channelsAdapter.removeOne(state, payload);
     },
     setCurrentChannelId: (state, { payload }) => {
-      // eslint-disable-next-line no-param-reassign
       state.currentChannelId = payload;
     },
     renameChannel: channelsAdapter.updateOne,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchInitialData.fulfilled, (state, { payload }) => {
+        channelsAdapter.setAll(state, payload.channels);
+        // state.currentChannelId = payload.currentChannelId;
+      });
   },
 });
 

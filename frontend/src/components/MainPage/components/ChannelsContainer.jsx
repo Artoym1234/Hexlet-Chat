@@ -1,11 +1,11 @@
 import {
   Button,
 } from 'react-bootstrap';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
-import { actions as channelsActions, selectors } from '../../../slices/channelsSlice';
+import { actions as channelsActions, selectors, actions as channelsAction } from '../../../slices/channelsSlice';
 // import ChatContext from '../../contexts/chat';
 import getModal from '../../commonComponents/modals/index';
 import ChannelItem from './ChannelItem';
@@ -35,11 +35,14 @@ const ChannelsContainer = () => {
   // const chatContext = useContext(ChatContext);
   // const { currentChannel, setCurrentChannel } = chatContext;
 
+  useEffect(() => {
+    dispatch(channelsAction.addChannels(channels));
+  });
+
   const handleClick = (id) => {
     dispatch(channelsActions.setCurrentChannelId(id));
   };
   const lastChannelsIdx = channels.length;
-  // console.log(channels.length);
   return (
     <>
       <div className="d-flex justify-content-between mb-2 ps-4 pe-2">

@@ -45,27 +45,26 @@ const App = ({ socket }) => {
       rollbar.error(e);
     });
   }, [socket]);
+    <Route path={pageRoutes.notFoundPage()} element={<NotFoundPage />} />;
+    return (
+      <Provider config={rollbarConfig}>
+        <ErrorBoundary>
+          <AuthProvider>
+            <Header />
+            <SocketProvider socket={socket}>
+              <Routes>
+                <Route path={pageRoutes.loginPage()} element={<LoginPage />} />
+                <Route path={pageRoutes.signUpPage()} element={<Signup />} />
+                <Route element={<PrivateRoute />}>
+                  <Route path={pageRoutes.mainPage()} element={(<MainPage />)} />
+                </Route>
+              </Routes>
+            </SocketProvider>
+          </AuthProvider>
+        </ErrorBoundary>
+      </Provider>
 
-  return (
-    <Provider config={rollbarConfig}>
-      <ErrorBoundary>
-        <AuthProvider>
-          <Header />
-          <SocketProvider socket={socket}>
-            <Routes>
-              <Route path={pageRoutes.notFoundPage()} element={<NotFoundPage />} />
-              <Route path={pageRoutes.loginPage()} element={<LoginPage />} />
-              <Route path={pageRoutes.signUpPage()} element={<Signup />} />
-              <Route element={<PrivateRoute />}>
-                <Route path={pageRoutes.mainPage()} element={(<MainPage />)} />
-              </Route>
-            </Routes>
-          </SocketProvider>
-        </AuthProvider>
-      </ErrorBoundary>
-    </Provider>
-
-  );
+    );
 };
 
 export default App;

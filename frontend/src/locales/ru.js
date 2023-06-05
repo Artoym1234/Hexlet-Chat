@@ -66,6 +66,8 @@ export default {
       channel_add: 'Канал создан',
       channel_remove: 'Канал удалён',
       channel_rename: 'Канал переименован',
+      unauthorized: 'Ошибка авторизации',
+      loading: 'Загрузка...',
     },
     errors: {
       incorrectChannelNameLength: 'От 3 до 20 символов',
@@ -74,7 +76,8 @@ export default {
       requiredField: 'Обязательное поле',
       needUnique: 'Должно быть уникальным',
       shouldConfirm: 'Пароли должны совпадать',
-      // somethingWrong: 'Что-то пошло не так...',
+      somethingWrong: 'Что-то пошло не так...',
+      update: 'Обновить',
     },
   },
 };
