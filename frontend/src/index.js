@@ -7,14 +7,17 @@ import store from './slices/index';
 import App from './components/App.js';
 import './index.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-const socket = io();
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App socket={socket} />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
-);
+const app = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  const socket = io();
+  root.render(await (
+    <React.StrictMode>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App socket={socket} />
+        </BrowserRouter>
+      </Provider>
+    </React.StrictMode>));
+};
+
+app();

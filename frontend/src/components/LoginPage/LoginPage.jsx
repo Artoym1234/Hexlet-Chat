@@ -13,18 +13,15 @@ import { useAuth } from '../contexts/AuthProvider.jsx';
 import { apiRoutes, pageRoutes } from '../../routes.js';
 import avatar from '../../images/avatar.jpg';
 import Tooltip from '../commonComponents/Tooltip.jsx';
-// import Loading from '../commonComponentsLoading.jsx';
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  // const authContext = useContext(AuthContext);
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef();
   const pasRef = useRef();
   const navigate = useNavigate();
-  // const { notify } = authContext;
 
   useEffect(() => {
     inputRef.current.focus();
@@ -94,7 +91,6 @@ const LoginForm = () => {
                         className="mb-3"
                       >
                         <Form.Control
-                      // id="username"
                           name="username"
                           type="login"
                           className={
@@ -120,7 +116,6 @@ const LoginForm = () => {
                         className="mb-3"
                       >
                         <Form.Control
-                      // id="password"
                           name="password"
                           type="password"
                           className={

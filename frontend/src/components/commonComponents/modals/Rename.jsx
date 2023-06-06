@@ -10,11 +10,11 @@ import { selectors } from '../../../slices/channelsSlice';
 import getValidationSchema from '../validate';
 import { useChatApi } from '../../contexts/SocketProvider.jsx';
 import { useAuth } from '../../contexts/AuthProvider.jsx';
+import { selectorsModal } from '../../../slices/modalSlice';
 
-const Rename = (props) => {
+const Rename = ({ handleClose }) => {
   const { t } = useTranslation();
-  const { onHide, channel } = props;
-  const { chatApi } = useChatApi();
+  const chatApi = useChatApi();
   const { notify } = useAuth();
   const inputRef = useRef();
 
@@ -22,16 +22,18 @@ const Rename = (props) => {
   const channelsName = channels.map((el) => el.name);
   const schema = getValidationSchema('schemaChannelName')(channelsName);
 
+  const { channelId, channelName } = useSelector(selectorsModal.getModalContext);
+
   const formik = useFormik({
     initialValues: {
-      nameChannel: channel.name,
+      nameChannel: channelName.name,
     },
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
-        await chatApi.renameChannel(channel.id, values.nameChannel);
+        await chatApi.renameChannel(channelId, values.nameChannel);
         notify('success', t('feedback.channel_rename'));
-        onHide();
+        handleClose();
       } catch (error) {
         notify('error', t('feedback.error_network'));
         formik.setSubmitting(false);
@@ -43,11 +45,12 @@ const Rename = (props) => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [formik.touched.name]);
+    inputRef.current.select();
+  }, []);
 
   return (
-    <Modal show centered>
-      <Modal.Header closeButton onHide={onHide}>
+    <>
+      <Modal.Header closeButton>
         <Modal.Title>{t('channels.modal.rename_title')}</Modal.Title>
       </Modal.Header>
       <form onSubmit={formik.handleSubmit}>
@@ -55,8 +58,6 @@ const Rename = (props) => {
           <Modal.Body>
             <Form.Group>
               <Form.Control
-                // id="name"
-                required
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.nameChannel}
@@ -75,12 +76,12 @@ const Rename = (props) => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={onHide}>{t('channels.modal.cancel_button')}</Button>
+            <Button variant="secondary" onClick={handleClose}>{t('channels.modal.cancel_button')}</Button>
             <Button type="submit" value="submit">{t('channels.rename')}</Button>
           </Modal.Footer>
         </fieldset>
       </form>
-    </Modal>
+    </>
   );
 };
 

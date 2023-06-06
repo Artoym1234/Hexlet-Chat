@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import Rollbar from 'rollbar';
 import { Provider, ErrorBoundary } from '@rollbar/react';
 import { initReactI18next } from 'react-i18next';
+import filter from 'leo-profanity';
 import Signup from './Signup/Signup.jsx';
 import NotFoundPage from './NotFoundPage/NotFoundPage.jsx';
 import MainPage from './MainPage/MainPage.jsx';
@@ -20,9 +21,9 @@ const PrivateRoute = () => {
   const auth = useAuth();
   return auth.loggedIn ? <Outlet /> : <Navigate to={pageRoutes.loginPage()} />;
 };
+
 const rollbarConfig = {
   accessToken: 'process.env.REACT_APP_ROLLBAR_TOKEN',
-  // accessToken: '0b68d0c41ccb45fe997c9879e21fa3d7',
   environment: 'production',
 };
 
@@ -33,11 +34,13 @@ const App = ({ socket }) => {
     .use(initReactI18next)
     .init({
       lng: 'ru',
-      debug: true,
       resources: {
         ru,
       },
+      fallbackLng: ['ru'],
     });
+
+  filter.add(filter.getDictionary('ru'));
 
   useEffect(() => {
     socket.on('connect_error', (e) => {

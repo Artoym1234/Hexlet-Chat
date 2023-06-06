@@ -2,7 +2,6 @@ import React, {
   useEffect,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
@@ -11,8 +10,7 @@ import ChatContainer from './components/ChatContainer.jsx';
 import { selectors as loadingStateSelectors, stateLoad } from '../../slices/loadingSlice.js';
 import { useAuth } from '../contexts/AuthProvider.jsx';
 import fetchInitialData from '../../slices/fetchInitialData.js';
-
-// const auth = useAuth();
+import GetModal from '../commonComponents/modals/index.js';
 
 const handleUpdate = (navigate) => () => {
   navigate(0);
@@ -67,9 +65,8 @@ const ChatContent = () => {
 };
 
 const MainPage = () => {
-  const { t } = useTranslation;
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  // const authContext = useContext(AuthContext);
   const { logOut, getAuthHeader, notify } = useAuth();
 
   const loadingState = useSelector(loadingStateSelectors.getStatus);
@@ -90,9 +87,10 @@ const MainPage = () => {
   }
 
   return (
-
-    <ChatContent />
-
+    <>
+      <ChatContent />
+      <GetModal />
+    </>
   );
 };
 

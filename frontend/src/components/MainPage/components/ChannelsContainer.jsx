@@ -1,39 +1,23 @@
 import {
   Button,
 } from 'react-bootstrap';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
 import { actions as channelsActions, selectors, actions as channelsAction } from '../../../slices/channelsSlice';
-// import ChatContext from '../../contexts/chat';
-import getModal from '../../commonComponents/modals/index';
 import ChannelItem from './ChannelItem';
-
-const renderModal = (modalInfo, hideModal) => {
-  if (modalInfo.type === null) {
-    return null;
-  }
-  const Component = getModal(modalInfo.type);
-  return <Component onHide={hideModal} channel={modalInfo.channel} />;
-};
+import { actions as modalActions } from '../../../slices/modalSlice.js';
 
 const ChannelsContainer = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(selectors.selectAll);
+
   const activeChannelId = useSelector((state) => {
     const { currentChannelId } = state.channels;
     return currentChannelId;
   });
-  // const activeChannelId = useSelector(({ channels }) => channels.currentChannelId);
-
-  const [modalInfo, setModalInfo] = useState({ type: null, channelId: null });
-  const showModal = (nameModal, channel = null) => setModalInfo({ type: nameModal, channel });
-  const hideModal = () => setModalInfo({ type: null, channel: null });
-
-  // const chatContext = useContext(ChatContext);
-  // const { currentChannel, setCurrentChannel } = chatContext;
 
   useEffect(() => {
     dispatch(channelsAction.addChannels(channels));
@@ -42,6 +26,28 @@ const ChannelsContainer = () => {
   const handleClick = (id) => {
     dispatch(channelsActions.setCurrentChannelId(id));
   };
+
+  const handleAdd = () => {
+    dispatch(modalActions.open({ type: 'adding' }));
+  };
+
+  const handleRename = (id, name) => () => {
+    const context = {
+      channelId: id,
+      channelName: name,
+    };
+    dispatch(modalActions.open({ type: 'renaming', context }));
+  };
+
+  const handleRemove = (id, name) => () => {
+    const context = {
+      channelId: id,
+      channelName: name,
+    };
+
+    dispatch(modalActions.open({ type: 'removing', context }));
+  };
+
   const lastChannelsIdx = channels.length;
   return (
     <>
@@ -51,13 +57,13 @@ const ChannelsContainer = () => {
           variant="light"
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
-          onClick={() => showModal('adding')}
+          onClick={handleAdd}
         >
           <PlusSquare height="20" width="20" />
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-      <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 flex-nowrap">
+      <ul id="channels-box" className="nav secondary flex-column nav-pills nav-fill px-2 flex-nowrap">
         {channels.map((channel) => (
           <ChannelItem
             key={channel.id}
@@ -65,11 +71,11 @@ const ChannelsContainer = () => {
             activeChannelId={activeChannelId}
             handleClick={(id) => handleClick(id)}
             lastChannelsIdx={lastChannelsIdx}
-            showModal={showModal}
+            handleRename={handleRename(channel.id, channel)}
+            handleRemove={handleRemove(channel.id, channel)}
           />
         ))}
       </ul>
-      {renderModal(modalInfo, hideModal)}
     </>
   );
 };

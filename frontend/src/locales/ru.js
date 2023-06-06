@@ -20,7 +20,6 @@ export default {
       password: 'Пароль',
       passwordConfirm: 'Подтвердите пароль',
       input_message: 'Введите сообщение...',
-      // new_message: 'Новое сообщение',
     },
     signUp: {
       title: 'Регистрация',

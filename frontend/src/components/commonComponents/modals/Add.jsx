@@ -6,24 +6,17 @@ import Form from 'react-bootstrap/Form';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { selectors } from '../../../slices/channelsSlice';
-// import ChatContext from '../../contexts/chat';
-// import AuthContext from '../../contexts/index';
+import { selectChannelNames } from '../../../slices/channelsSlice';
 import { useChatApi } from '../../contexts/SocketProvider.jsx';
 import { useAuth } from '../../contexts/AuthProvider.jsx';
 import getValidationSchema from '../validate';
 
-const Add = (props) => {
+const Add = ({ handleClose }) => {
   const { t } = useTranslation();
   const inputRef = useRef();
-  // const chatContext = useContext(ChatContext);
-  // const authContext = useContext(AuthContext);
-  const { chatApi } = useChatApi();
+  const chatApi = useChatApi();
   const { notify } = useAuth();
-  const { onHide } = props;
-
-  const channels = useSelector(selectors.selectAll);
-  const channelsName = channels.map((channel) => channel.name);
+  const channelsName = useSelector(selectChannelNames);
   const schema = getValidationSchema('schemaChannelName')(channelsName);
 
   useEffect(() => {
@@ -38,7 +31,7 @@ const Add = (props) => {
     onSubmit: async (values) => {
       try {
         await chatApi.sendNewChannel(values.nameChannel);
-        onHide();
+        handleClose();
         notify('success', t('feedback.channel_add'));
       } catch {
         notify('error', t('feedback.error_network'));
@@ -50,8 +43,8 @@ const Add = (props) => {
   });
 
   return (
-    <Modal show centered>
-      <Modal.Header closeButton onHide={onHide}>
+    <>
+      <Modal.Header closeButton>
         <Modal.Title>{t('channels.modal.add_title')}</Modal.Title>
       </Modal.Header>
       <form onSubmit={formik.handleSubmit}>
@@ -59,7 +52,6 @@ const Add = (props) => {
           <Modal.Body>
             <Form.Group>
               <Form.Control
-              // id="name"
                 required
                 autoComplete="false"
                 onChange={formik.handleChange}
@@ -79,12 +71,12 @@ const Add = (props) => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={onHide}>{t('channels.modal.cancel_button')}</Button>
+            <Button variant="secondary" onClick={handleClose}>{t('channels.modal.cancel_button')}</Button>
             <Button type="submit" disabled={formik.isSubmitting}>{t('channels.modal.send_button')}</Button>
           </Modal.Footer>
         </fieldset>
       </form>
-    </Modal>
+    </>
   );
 };
 

@@ -58,7 +58,6 @@ const Signup = () => {
               return;
             }
             if (err.response.status === 409) {
-              // inputRef.current.select();
               setAuthFailed(true);
               setLoading(false);
             }
@@ -83,7 +82,6 @@ const Signup = () => {
                   <Form.Group className="mb-3">
                     <FloatingLabel controlId="username" label={t('placeholder.username')} className="mb-3">
                       <Form.Control
-                    // id="username"
                         name="username"
                         value={formik.values.username}
                         placeholder={t('placeholder.username')}
@@ -107,7 +105,6 @@ const Signup = () => {
                       <Form.Control
                         name="password"
                         type="password"
-                    // id="password"
                         placeholder={t('placeholder.password')}
                         value={formik.values.password}
                         onChange={formik.handleChange}
@@ -130,7 +127,6 @@ const Signup = () => {
                       <Form.Control
                         name="passwordConfirm"
                         type="password"
-                    // id="passwordConfirm"
                         placeholder={t('placeholder.passwordConfirm')}
                         value={formik.values.passwordConfirm}
                         onChange={formik.handleChange}

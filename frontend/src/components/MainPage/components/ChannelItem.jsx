@@ -6,14 +6,10 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
-const ChannelItem = (props) => {
+const ChannelItem = ({
+  channel, activeChannelId, handleClick, handleRemove, handleRename,
+}) => {
   const { t } = useTranslation();
-  const {
-    channel,
-    activeChannelId,
-    handleClick,
-    showModal,
-  } = props;
 
   return (
     <li className="nav-item w-100" key={channel.id}>
@@ -37,7 +33,7 @@ const ChannelItem = (props) => {
               type="button"
               onClick={() => handleClick(channel.id)}
               variant={channel.id === activeChannelId ? 'secondary' : 'light'}
-              className="w-100 rounded-0 text-start text-truncate  "
+              className="w-100 rounded-0 text-start text-truncate"
             >
               <span className="me-1">#</span>
               {' '}
@@ -53,12 +49,12 @@ const ChannelItem = (props) => {
             <Dropdown.Menu>
               <Dropdown.Item
                 href="#"
-                onClick={() => showModal('removing', channel)}
+                onClick={handleRemove}
               >{t('channels.remove')}
               </Dropdown.Item>
               <Dropdown.Item
                 href="#"
-                onClick={() => showModal('renaming', channel)}
+                onClick={handleRename}
               >{t('channels.rename')}
               </Dropdown.Item>
             </Dropdown.Menu>

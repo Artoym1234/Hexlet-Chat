@@ -3,23 +3,13 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import InputMessage from './InputMessage.jsx';
 import OutputMessages from './OutputMessage.jsx';
-// import ChatContext from '../../contexts/chat';
-import { selectors as messagesSelectors } from '../../../slices/messagesSlice';
-import { selectors as channelsSelectors } from '../../../slices/channelsSlice';
+import { filteredMessages } from '../../../slices/messagesSlice';
+import { useCurrentChannel } from '../../../slices/channelsSlice';
 
 const ChatContainer = () => {
-  // const chatContext = useContext(ChatContext);
-  // const { currentChanne } = chatContext;
-  const messages = useSelector(messagesSelectors.selectAll);
-  const channels = useSelector(channelsSelectors.selectAll);
   const { t } = useTranslation();
-  const activeChannelId = useSelector((state) => {
-    const { currentChannelId } = state.channels;
-    return currentChannelId;
-  });
-
-  const filteredMessages = messages.filter((message) => message.channelId === activeChannelId);
-  const currentChannel = channels.find((channel) => channel.id === activeChannelId);
+  const currentMessages = useSelector(filteredMessages);
+  const currentChannel = useSelector(useCurrentChannel);
 
   useEffect(() => {
     const block = document.getElementById('messages-box');
@@ -35,7 +25,7 @@ const ChatContainer = () => {
           </b>
         </p>
         <span className="text-muted">
-          {t('chat_container.message', { count: filteredMessages.length })}
+          {t('chat_container.message', { count: currentMessages.length })}
         </span>
       </div>
       <div id="messages-box" className="flex-grow-1 overflow-auto px-5 ">

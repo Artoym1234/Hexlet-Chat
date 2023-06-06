@@ -15,7 +15,7 @@ import { useAuth } from '../../contexts/AuthProvider.jsx';
 
 const InputMessage = () => {
   const { t } = useTranslation();
-  const { chatApi } = useChatApi();
+  const chatApi = useChatApi();
   const { notify } = useAuth();
 
   const activeChannelId = useSelector((state) => {
@@ -44,7 +44,6 @@ const InputMessage = () => {
       };
       try {
         await chatApi.sendNewMessage(message);
-        // eslint-disable-next-line no-param-reassign
         values.body = '';
       } catch {
         notify('error', t('feedback.error_network'));
@@ -61,7 +60,6 @@ const InputMessage = () => {
         <Form.Control
           name="body"
           id="body"
-          // type="text"
           placeholder={t('placeholder.input_message')}
           value={formik.values.body}
           onChange={formik.handleChange}
