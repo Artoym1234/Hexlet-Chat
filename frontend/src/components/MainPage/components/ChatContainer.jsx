@@ -10,7 +10,6 @@ const ChatContainer = () => {
   const { t } = useTranslation();
   const currentMessages = useSelector(filteredMessages);
   const currentChannel = useSelector(useCurrentChannel);
-
   useEffect(() => {
     const block = document.getElementById('messages-box');
     block.scrollTop = block.scrollHeight;

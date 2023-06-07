@@ -7,8 +7,9 @@ const GetValidationSchema = (shemaName) => {
   const shemas = {
     schemaChannelName: (channelsName) => yup.object().shape({
       nameChannel: yup
-        .string()
+        .string('')
         .required(t('errors.requiredField'))
+        .trim()
         .min(3, t('errors.incorrectChannelNameLength'))
         .max(20, t('errors.incorrectChannelNameLength'))
         .notOneOf(channelsName, t('errors.needUnique')),

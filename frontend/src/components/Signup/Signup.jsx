@@ -2,19 +2,17 @@ import {
   useState, useEffect, useRef,
 } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import cn from 'classnames';
 import { useAuth } from '../contexts/AuthProvider.jsx';
-import { apiRoutes } from '../../routes.js';
+import { apiRoutes, pageRoutes } from '../../routes.js';
 import avatar from '../../images/avatar_1.jpg';
 import getValidationSchema from '../commonComponents/validate.js';
 import Tooltip from '../commonComponents/Tooltip.jsx';
-import Loading from '../commonComponents/Loading.jsx';
 
 const Signup = () => {
   const targetUsername = useRef();
@@ -22,7 +20,6 @@ const Signup = () => {
   const targetPasswordConf = useRef();
   const { t } = useTranslation();
   const [authFailed, setAuthFailed] = useState(false);
-  const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
   const { notify } = useAuth();
@@ -41,13 +38,11 @@ const Signup = () => {
     validateOnChange: true,
 
     onSubmit: (values) => {
-      setLoading(true);
       axios.post(apiRoutes.signUpPath(), values)
         .then((response) => {
           auth.logIn(response.data.token, response.data.username);
           if (response.status === 201) {
-            setLoading(false);
-            navigate('/');
+            navigate(pageRoutes.mainPage());
           }
         })
         .catch((err) => {
@@ -59,7 +54,6 @@ const Signup = () => {
             }
             if (err.response.status === 409) {
               setAuthFailed(true);
-              setLoading(false);
             }
           }
         });
@@ -68,8 +62,7 @@ const Signup = () => {
 
   return (
     <div>
-      {loading ? <Loading /> : null};
-      <div className={cn('row', 'justify-content-center', 'align-content-center', 'flex-grow-1', 'bg-light', { 'd-none': loading === true })}>
+      <div className="row justify-content-center balign-content-center flex-grow-1 bg-light">
         <div className="col-12 col-md-8 col-xxl-6">
           <div className="d-flex card shadow-sm">
             <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
@@ -82,6 +75,8 @@ const Signup = () => {
                   <Form.Group className="mb-3">
                     <FloatingLabel controlId="username" label={t('placeholder.username')} className="mb-3">
                       <Form.Control
+                        id="username"
+                        type="text"
                         name="username"
                         value={formik.values.username}
                         placeholder={t('placeholder.username')}
@@ -104,14 +99,15 @@ const Signup = () => {
                     <FloatingLabel controlId="password" label={t('placeholder.password')} className="mb-3">
                       <Form.Control
                         name="password"
+                        id="password"
                         type="password"
                         placeholder={t('placeholder.password')}
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         ref={targetPassword}
-                        className={formik.touched.username
-                      && formik.errors.username ? 'is-invalid' : ''}
+                        className={formik.touched.password
+                      && formik.errors.password ? 'is-invalid' : ''}
                         isInvalid={!!formik.errors.password}
                       />
                     </FloatingLabel>
@@ -126,6 +122,7 @@ const Signup = () => {
                     <FloatingLabel controlId="passwordConfirm" label={t('placeholder.passwordConfirm')} className="mb-3">
                       <Form.Control
                         name="passwordConfirm"
+                        id="passwordConfirm"
                         type="password"
                         placeholder={t('placeholder.passwordConfirm')}
                         value={formik.values.passwordConfirm}
@@ -146,7 +143,7 @@ const Signup = () => {
 
                   {authFailed ? <div className="invalid-feedback d-block">{t('signUp.errors.user_registered')}</div> : null}
 
-                  <Button className="w-100" variant="outline-primary" type="submit">
+                  <Button className="w-100" type="submit" variant="outline-primary">
                     {t('signUp.button')}
                   </Button>
                 </fieldset>
@@ -157,7 +154,7 @@ const Signup = () => {
               <div className="text-center">
                 <span>{t('signUp.registered')}</span>
                 {' '}
-                <a href="/login">{t('signUp.goToLogin')}</a>
+                <Link to={pageRoutes.loginPage()}>{t('signUp.goToLogin')}</Link>
               </div>
             </div>
           </div>

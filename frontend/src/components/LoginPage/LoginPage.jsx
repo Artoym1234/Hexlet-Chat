@@ -68,93 +68,90 @@ const LoginForm = () => {
   });
 
   return (
-    <div>
-
-      <div className={cn('container-fluid', 'h-100', { 'd-none': loading === true })}>
-        <div className="row justify-content-center align-content-center h-100 p-5">
-          <div className="col-12 col-md-8 col-xxl-6">
-            <div className="card shadow-sm">
-              <div className="card-body row p-5">
-                <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                  <img src={avatar} className="rounded-circle" alt="Войти" />
-                </div>
-                <Form
-                  onSubmit={formik.handleSubmit}
-                  className="col-12 col-md-6 mt-3 mt-mb-0"
-                >
-                  <h1 className="text-center mb-4">{t('logIn.title')}</h1>
-                  <fieldset disabled={formik.isSubmitting}>
-                    <Form.Group className="mb-3">
-                      <FloatingLabel
-                        controlId="username"
-                        label={t('placeholder.username_login')}
-                        className="mb-3"
-                      >
-                        <Form.Control
-                          name="username"
-                          type="login"
-                          className={
-                      authFailed
-                        ? 'mb-3 form-control is-invalid'
-                        : 'mb-3 form-control'
-                    }
-                          required
-                          isInvalid={authFailed}
-                          placeholder={t('placeholder.username_login')}
-                          autocomplite="username"
-                          onChange={formik.handleChange}
-                          value={formik.values.username}
-                          ref={inputRef}
-                        />
-                      </FloatingLabel>
-                    </Form.Group>
-
-                    <Form.Group className="mb-4">
-                      <FloatingLabel
-                        controlId="password"
-                        label={t('placeholder.password')}
-                        className="mb-3"
-                      >
-                        <Form.Control
-                          name="password"
-                          type="password"
-                          className={
-                      authFailed
-                        ? 'mb-3 form-control is-invalid'
-                        : 'mb-3 form-control'
-                    }
-                          required
-                          isInvalid={authFailed}
-                          placeholder={t('placeholder.password')}
-                          autoсomplite="password"
-                          onChange={formik.handleChange}
-                          value={formik.values.password}
-                          ref={pasRef}
-                        />
-                        <Tooltip
-                          target={pasRef.current}
-                          show={authFailed}
-                          text={t('logIn.errors.authorization')}
-                        />
-                      </FloatingLabel>
-
-                    </Form.Group>
-                    <Button
-                      type="submit"
-                      variant="outline-primary"
-                      className="w-100 btn btn-outline-primary"
-                    >
-                      {t('logIn.button')}
-                    </Button>
-                  </fieldset>
-                </Form>
+    <div className={cn('container-fluid', 'h-100', { 'd-none': loading === true })}>
+      <div className="row justify-content-center align-content-center h-100 p-5">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow-sm">
+            <div className="card-body row p-5">
+              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                <img src={avatar} className="rounded-circle" alt="Войти" />
               </div>
-              <div className="card-footer text-muted p-4">
-                <div className="text-center">
-                  <span>{t('logIn.new_user')}</span>
-                  {' '}
-                  <a href="/signup">{t('signUp.button')}</a>
-                </div>
+              <Form
+                onSubmit={formik.handleSubmit}
+                className="col-12 col-md-6 mt-3 mt-mb-0"
+              >
+                <h1 className="text-center mb-4">{t('logIn.title')}</h1>
+                <fieldset disabled={formik.isSubmitting}>
+                  <Form.Group className="mb-3">
+                    <FloatingLabel
+                      controlId="username"
+                      label={t('placeholder.username_login')}
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        name="username"
+                        type="login"
+                        className={
+                      authFailed
+                        ? 'mb-3 form-control is-invalid'
+                        : 'mb-3 form-control'
+                    }
+                        required
+                        isInvalid={authFailed}
+                        placeholder={t('placeholder.username_login')}
+                        autocomplite="username"
+                        onChange={formik.handleChange}
+                        value={formik.values.username}
+                        ref={inputRef}
+                      />
+                    </FloatingLabel>
+                  </Form.Group>
+
+                  <Form.Group className="mb-4">
+                    <FloatingLabel
+                      controlId="password"
+                      label={t('placeholder.password')}
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        name="password"
+                        type="password"
+                        className={
+                      authFailed
+                        ? 'mb-3 form-control is-invalid'
+                        : 'mb-3 form-control'
+                    }
+                        required
+                        isInvalid={authFailed}
+                        placeholder={t('placeholder.password')}
+                        autoсomplite="password"
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        ref={pasRef}
+                      />
+                      <Tooltip
+                        target={pasRef.current}
+                        show={authFailed}
+                        text={t('logIn.errors.authorization')}
+                      />
+                    </FloatingLabel>
+
+                  </Form.Group>
+                  <Button
+                    type="submit"
+                    variant="outline-primary"
+                    className="w-100 btn btn-outline-primary"
+                  >
+                    {t('logIn.button')}
+                  </Button>
+                </fieldset>
+              </Form>
+            </div>
+            <div className="card-footer text-muted p-4">
+              <div className="text-center">
+                <span>{t('logIn.new_user')}</span>
+                {' '}
+                <a href={pageRoutes.signUpPage()}>{t('signUp.title')}</a>
               </div>
             </div>
           </div>

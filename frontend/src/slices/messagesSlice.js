@@ -42,6 +42,5 @@ export const filteredMessages = createSelector(
   (messages, currentChannelId) => messages
     .filter((message) => message.channelId === currentChannelId),
 );
-
 export const { actions } = messagesSlice;
 export default messagesSlice.reducer;

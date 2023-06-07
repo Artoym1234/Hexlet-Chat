@@ -50,12 +50,14 @@ const ChannelItem = ({
               <Dropdown.Item
                 href="#"
                 onClick={handleRemove}
-              >{t('channels.remove')}
+              >
+                {t('channels.remove')}
               </Dropdown.Item>
               <Dropdown.Item
                 href="#"
                 onClick={handleRename}
-              >{t('channels.rename')}
+              >
+                {t('channels.rename')}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

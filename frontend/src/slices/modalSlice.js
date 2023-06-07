@@ -13,11 +13,15 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     open: (state, { payload: { type, context = null } }) => {
+      /* eslint-disable no-param-reassign */
       state.isOpen = true;
+      /* eslint-disable no-param-reassign */
       state.type = type;
+      /* eslint-disable no-param-reassign */
       state.context = context;
     },
     close: (state) => {
+      /* eslint-disable no-param-reassign */
       state.isOpen = false;
     },
   },

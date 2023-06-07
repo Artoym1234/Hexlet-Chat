@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+// import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { selectors } from '../../../slices/channelsSlice';
 import getValidationSchema from '../validate';
 import { useChatApi } from '../../contexts/SocketProvider.jsx';
@@ -54,32 +54,32 @@ const Rename = ({ handleClose }) => {
         <Modal.Title>{t('channels.modal.rename_title')}</Modal.Title>
       </Modal.Header>
       <form onSubmit={formik.handleSubmit}>
-        <fieldset disabled={formik.isSubmitting}>
-          <Modal.Body>
-            <Form.Group>
-              <Form.Control
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.nameChannel}
-                isInvalid={formik.errors.nameChannel}
-                data-testid="nameChannel"
-                name="nameChannel"
-                ref={inputRef}
-              />
-              <Form.Control.Feedback type="invalid">{formik.errors.nameChannel}</Form.Control.Feedback>
-              <FloatingLabel
-                cdhtmlFor="name"
-                controlId="name"
-                label={t('channels.name')}
-                className="visually-hidden"
-              />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>{t('channels.modal.cancel_button')}</Button>
-            <Button type="submit" value="submit">{t('channels.rename')}</Button>
-          </Modal.Footer>
-        </fieldset>
+
+        <Modal.Body>
+          <Form.Group>
+            <Form.Control
+              id="nameChannel"
+              onChange={formik.handleChange}
+              // onBlur={formik.handleBlur}
+              value={formik.values.nameChannel}
+              isInvalid={formik.errors.nameChannel}
+              className="mb-2"
+              // data-testid="nameChannel"
+              name="nameChannel"
+              ref={inputRef}
+              disabled={formik.isSubmitting}
+            />
+            <Form.Label htmlFor="nameChannel" className="visually-hidden">
+              {t('channels.name')}
+            </Form.Label>
+            <Form.Control.Feedback type="invalid">{formik.errors.nameChannel}</Form.Control.Feedback>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>{t('channels.modal.cancel_button')}</Button>
+          <Button type="submit" value="submit">{t('channels.rename')}</Button>
+        </Modal.Footer>
+
       </form>
     </>
   );

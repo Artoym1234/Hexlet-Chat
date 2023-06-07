@@ -3,36 +3,37 @@
 [![Actions Status](https://github.com/Artoym1234/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/Artoym1234/frontend-project-12/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fab861ef35e3ac4a61b4/maintainability)](https://codeclimate.com/github/Artoym1234/frontend-project-12/maintainability)
 
-# Hexlet Chat
+# Description
 
-Hexlet Chat — это приложение для группового чата с возможностью создания неограниченного количества каналов. Работает в веб-браузере.
+Hexlet Chat — групповой чат в котором можно создавать неограниченное количество каналов, удалять и переименовывать их. Имеет возможность фильтрации плохих слов. Всплывающие уведомления покажут успешное или неудачное действие при работе с каналами или произошедших ошибках. Работает в веб-браузере.
+Hexlet Chat, это приложение React/Redux в реальном времени, которое включает в себя веб-сокеты, взаимодействие с REST API, использование React (с хуками), Redux (через reduxjs/toolkit), маршрутизацию на стороне клиента, авторизацию и аутентификация, и, конечно же, сборка и развертывание.
 
-- [Demo project](https://frontend-project-12-production-fde2.up.railway.app)
+- [Hexlet Chat](https://frontend-project-12-production-fde2.up.railway.app)
 
-## Installation
+# Get Started
+
+## Clone repository
 
 ```bash
-make ci
+git clone https://github.com/Artoym1234/frontend-project-12
 ```
 
-## Running the app locally
+## Install dependencies
+
+```bash
+make install
+```
+
+## Start frontend and backend in root folder
 
 ```bash
 make start
 ```
 
-Приложение будет доступно на локальном хосте: 3000.
+# Demo
 
-## Deploy
+![Login screenshot](/screenshots/login.JPG)
 
-Build the app
+![SignUp screenshot](/screenshots/signup.JPG)
 
-```bash
-npm run build
-```
-
-Run builded app
-
-```bash
-npm start
-```
+![Chat gif](/screenshots/HexletChat.gif)

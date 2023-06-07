@@ -1,15 +1,11 @@
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-// import LeoProfanity from 'leo-profanity';
+import filter from 'leo-profanity';
 import { filteredMessages } from '../../../slices/messagesSlice';
 
 const OutputMessages = () => {
   const lastMessageRef = useRef();
   const currentMessages = useSelector(filteredMessages);
-
-  /* const filterWords = LeoProfanity;
-  const ruWords = filterWords.getDictionary('ru');
-  filterWords.add(ruWords); */
 
   return (
     <>
@@ -18,7 +14,7 @@ const OutputMessages = () => {
           <b>{message.username}</b>
           :
           {' '}
-          {message.body}
+          {filter.clean(message.body)}
         </div>
       ))}
       <span ref={lastMessageRef} />

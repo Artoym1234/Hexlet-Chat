@@ -44,7 +44,7 @@ const InputMessage = () => {
       };
       try {
         await chatApi.sendNewMessage(message);
-        values.body = '';
+        formik.resetForm();
       } catch {
         notify('error', t('feedback.error_network'));
       }

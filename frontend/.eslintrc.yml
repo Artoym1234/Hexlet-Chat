@@ -15,6 +15,7 @@ parserOptions:
 plugins:
   - react
   - functional
+  - react-hooks
 rules:
   import/extensions: 0
   import/no-unresolved: 0
@@ -35,7 +36,4 @@ rules:
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
   functional/no-expression-statements: 0
   functional/no-conditional-statements: 0
-  react/jsx-wrap-multilines:
-    ["error", { "declaration": false, "assignment": false }]
-  react/jsx-one-expression-per-line:
-    [0, { "allow": "none", "literal", "single-child" }]
+  
