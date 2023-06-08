@@ -8,7 +8,7 @@ import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import cn from 'classnames';
+// import cn from 'classnames';
 import { useAuth } from '../contexts/AuthProvider.jsx';
 import { apiRoutes, pageRoutes } from '../../routes.js';
 import avatar from '../../images/avatar.jpg';
@@ -18,7 +18,7 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const inputRef = useRef();
   const pasRef = useRef();
   const navigate = useNavigate();
@@ -34,19 +34,19 @@ const LoginForm = () => {
     },
     validationSchema: yup.object().shape({
       username: yup.string()
-        .required('errors.requiredField'),
+        .required(t('errors.requiredField')),
       password: yup.string()
-        .required('errors.requiredField'),
+        .required(t('errors.requiredField')),
     }),
 
     onSubmit: (values) => {
       setAuthFailed(false);
-      setLoading(true);
+      // setLoading(true);
       axios.post(apiRoutes.loginPath(), values)
         .then((response) => {
           auth.logIn(response.data.token, response.data.username);
           if (response.status === 200) {
-            setLoading(false);
+            // setLoading(false);
             navigate(pageRoutes.mainPage());
           }
         })
@@ -59,7 +59,7 @@ const LoginForm = () => {
             }
             if (err.response.status === 401) {
               setAuthFailed(true);
-              setLoading(false);
+              // setLoading(false);
               inputRef.current.select();
             }
           }
@@ -68,7 +68,7 @@ const LoginForm = () => {
   });
 
   return (
-    <div className={cn('container-fluid', 'h-100', { 'd-none': loading === true })}>
+    <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100 p-5">
         <div className="col-12 col-md-8 col-xxl-6">
           <div className="card shadow-sm">
