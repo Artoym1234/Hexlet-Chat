@@ -8,7 +8,6 @@ import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-// import cn from 'classnames';
 import { useAuth } from '../contexts/AuthProvider.jsx';
 import { apiRoutes, pageRoutes } from '../../routes.js';
 import avatar from '../../images/avatar.jpg';
@@ -18,7 +17,6 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
-  // const [loading, setLoading] = useState(false);
   const inputRef = useRef();
   const pasRef = useRef();
   const navigate = useNavigate();
@@ -41,12 +39,10 @@ const LoginForm = () => {
 
     onSubmit: (values) => {
       setAuthFailed(false);
-      // setLoading(true);
       axios.post(apiRoutes.loginPath(), values)
         .then((response) => {
           auth.logIn(response.data.token, response.data.username);
           if (response.status === 200) {
-            // setLoading(false);
             navigate(pageRoutes.mainPage());
           }
         })
@@ -59,7 +55,6 @@ const LoginForm = () => {
             }
             if (err.response.status === 401) {
               setAuthFailed(true);
-              // setLoading(false);
               inputRef.current.select();
             }
           }
