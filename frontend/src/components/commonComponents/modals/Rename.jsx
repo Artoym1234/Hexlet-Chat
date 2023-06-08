@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
-// import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { selectors } from '../../../slices/channelsSlice';
 import getValidationSchema from '../validate';
 import { useChatApi } from '../../contexts/SocketProvider.jsx';
@@ -60,11 +59,9 @@ const Rename = ({ handleClose }) => {
             <Form.Control
               id="nameChannel"
               onChange={formik.handleChange}
-              // onBlur={formik.handleBlur}
               value={formik.values.nameChannel}
               isInvalid={formik.errors.nameChannel}
               className="mb-2"
-              // data-testid="nameChannel"
               name="nameChannel"
               ref={inputRef}
               disabled={formik.isSubmitting}
