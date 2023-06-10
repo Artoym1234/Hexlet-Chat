@@ -38,9 +38,10 @@ const Signup = () => {
     validateOnChange: true,
 
     onSubmit: (values) => {
-      axios.post(apiRoutes.signUpPath(), values)
+      const res = axios.post(apiRoutes.signUpPath(), values);
+      res
         .then((response) => {
-          auth.logIn(response.data.token, response.data.username);
+          auth.logIn(response.data);
           if (response.status === 201) {
             navigate(pageRoutes.mainPage());
           }
@@ -90,7 +91,7 @@ const Signup = () => {
                   <Tooltip
                     target={targetUsername.current}
                     show={formik.errors.username && formik.touched.username}
-                    text={formik.errors.username}
+                    text={t(formik.errors.username)}
                   />
                 </Form.Group>
 
@@ -113,7 +114,7 @@ const Signup = () => {
                   <Tooltip
                     target={targetPassword.current}
                     show={formik.errors.password && formik.touched.password}
-                    text={formik.errors.password}
+                    text={t(formik.errors.password)}
                   />
                 </Form.Group>
 
@@ -136,7 +137,7 @@ const Signup = () => {
                   <Tooltip
                     target={targetPasswordConf.current}
                     show={formik.errors.passwordConfirm && formik.touched.passwordConfirm}
-                    text={formik.errors.passwordConfirm}
+                    text={t(formik.errors.passwordConfirm)}
                   />
                 </Form.Group>
 

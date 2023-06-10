@@ -2,35 +2,36 @@ import React, {
   createContext, useState, useMemo, useCallback,
   useContext,
 } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { actions as loadingStateActions } from '../../slices/loadingSlice.js';
 
 const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
-  const stateInit = localStorage.token;
-  const [loggedIn, setLoggedIn] = useState(stateInit);
+  const dispatch = useDispatch();
 
-  const logIn = useCallback((token, username) => {
-    setLoggedIn(true);
-    localStorage.token = token;
-    localStorage.username = username;
+  const stateInit = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState(stateInit);
+
+  const logIn = useCallback((data) => {
+    localStorage.setItem('user', JSON.stringify(data));
+    setUser(data);
   }, []);
 
   const logOut = useCallback(() => {
-    localStorage.removeItem('userId');
-    setLoggedIn(false);
-  }, []);
-
-  const token = localStorage.getItem('token');
+    localStorage.removeItem('user');
+    dispatch(loadingStateActions.unload());
+    setUser(null);
+  }, [dispatch]);
 
   const getAuthHeader = useCallback(() => {
-    if (localStorage.getItem('token')) {
-      return { Authorization: `Bearer ${token}` };
+    if (user && user.token) {
+      return { Authorization: `Bearer ${user.token}` };
     }
     return {};
-  }, [token]);
+  }, [user]);
 
   const notify = useCallback((type, text) => {
     if (type === 'success') {
@@ -41,24 +42,12 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const memo = useMemo(() => ({
-    loggedIn, logIn, logOut, notify, getAuthHeader,
-  }), [loggedIn, logIn, logOut, notify, getAuthHeader]);
+    setUser, user, logIn, logOut, notify, getAuthHeader,
+  }), [setUser, user, logIn, logOut, notify, getAuthHeader]);
 
   return (
     <AuthContext.Provider value={memo}>
       {children}
-      <ToastContainer
-        position="top-right"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </AuthContext.Provider>
   );
 };

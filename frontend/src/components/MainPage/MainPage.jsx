@@ -70,21 +70,29 @@ const MainPage = () => {
   const { logOut, getAuthHeader, notify } = useAuth();
 
   const loadingState = useSelector(loadingStateSelectors.getStatus);
+
   useEffect(() => {
     dispatch(fetchInitialData(getAuthHeader()));
   }, [dispatch, getAuthHeader]);
 
   switch (loadingState) {
-    case stateLoad.error:
+    case stateLoad.authError:
       notify('error', t('feedback.unauthorized'));
       logOut();
       break;
-    case stateLoad.fail:
+    case stateLoad.networkError:
       notify('error', t('feedback.error_network'));
       break;
     default:
       break;
   }
+
+  /* if (loadingState === stateLoad.error) {
+    notify('error', t('feedback.unauthorized'));
+    logOut();
+  } else {
+    notify('error', t('feedback.error_network'));
+  } */
 
   return (
     <>

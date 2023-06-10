@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import fetchInitialData from './fetchInitialData.js';
 
 export const stateLoad = {
-  error: 'error',
-  fail: 'fail',
+  authError: 'authError',
+  networkError: 'networkError',
   idle: 'idle',
   load: 'load',
   success: 'success',
@@ -25,14 +25,15 @@ const loadingStateSlice = createSlice({
       .addCase(fetchInitialData.fulfilled, () => stateLoad.success)
       .addCase(fetchInitialData.rejected, (state, action) => {
         if (action.payload === 401) {
-          return stateLoad.error;
+          return stateLoad.authError;
         }
-        return stateLoad.fail;
+        return stateLoad.networkError;
       });
   },
 });
 
 export const { actions } = loadingStateSlice;
+
 export const selectors = {
   getStatus: (state) => state.loadingState,
 };

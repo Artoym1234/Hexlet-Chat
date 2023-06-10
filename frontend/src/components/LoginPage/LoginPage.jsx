@@ -32,16 +32,18 @@ const LoginForm = () => {
     },
     validationSchema: yup.object().shape({
       username: yup.string()
-        .required(t('errors.requiredField')),
+        .required('errors.requiredField'),
       password: yup.string()
-        .required(t('errors.requiredField')),
+        .required('errors.requiredField'),
     }),
+    validateOnChange: true,
 
     onSubmit: (values) => {
       setAuthFailed(false);
-      axios.post(apiRoutes.loginPath(), values)
+      const res = axios.post(apiRoutes.loginPath(), values);
+      res
         .then((response) => {
-          auth.logIn(response.data.token, response.data.username);
+          auth.logIn(response.data);
           if (response.status === 200) {
             navigate(pageRoutes.mainPage());
           }
@@ -85,14 +87,11 @@ const LoginForm = () => {
                     >
                       <Form.Control
                         name="username"
-                        type="login"
-                        className={
-                      authFailed
-                        ? 'mb-3 form-control is-invalid'
-                        : 'mb-3 form-control'
-                    }
+                        type="text"
+                        className={formik.touched.username
+                          && formik.errors.username ? 'is-invalid' : ''}
                         required
-                        isInvalid={authFailed}
+                        isInvalid={!!formik.errors.username}
                         placeholder={t('placeholder.username_login')}
                         autocomplite="username"
                         onChange={formik.handleChange}
@@ -100,6 +99,11 @@ const LoginForm = () => {
                         ref={inputRef}
                       />
                     </FloatingLabel>
+                    <Tooltip
+                      target={inputRef.current}
+                      show={formik.errors.username && formik.touched.username}
+                      text={t(formik.errors.username)}
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-4">
@@ -111,13 +115,10 @@ const LoginForm = () => {
                       <Form.Control
                         name="password"
                         type="password"
-                        className={
-                      authFailed
-                        ? 'mb-3 form-control is-invalid'
-                        : 'mb-3 form-control'
-                    }
+                        className={formik.touched.password
+                            && formik.errors.password ? 'is-invalid' : ''}
+                        isInvalid={!!formik.errors.password}
                         required
-                        isInvalid={authFailed}
                         placeholder={t('placeholder.password')}
                         autoсomplite="password"
                         onChange={formik.handleChange}
@@ -130,7 +131,11 @@ const LoginForm = () => {
                         text={t('logIn.errors.authorization')}
                       />
                     </FloatingLabel>
-
+                    <Tooltip
+                      target={pasRef.current}
+                      show={formik.errors.password && formik.touched.password}
+                      text={t(formik.errors.password)}
+                    />
                   </Form.Group>
                   <Button
                     type="submit"

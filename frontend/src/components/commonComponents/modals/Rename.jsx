@@ -69,7 +69,7 @@ const Rename = ({ handleClose }) => {
             <Form.Label htmlFor="nameChannel" className="visually-hidden">
               {t('channels.name')}
             </Form.Label>
-            <Form.Control.Feedback type="invalid">{formik.errors.nameChannel}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{t(formik.errors.nameChannel)}</Form.Control.Feedback>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

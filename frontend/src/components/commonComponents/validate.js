@@ -1,33 +1,30 @@
 import * as yup from 'yup';
-import { useTranslation } from 'react-i18next';
 
 const GetValidationSchema = (shemaName) => {
-  const { t } = useTranslation();
-
   const shemas = {
     schemaChannelName: (channelsName) => yup.object().shape({
       nameChannel: yup
         .string('')
-        .required(t('errors.requiredField'))
+        .required('errors.requiredField')
         .trim()
-        .min(3, t('errors.incorrectChannelNameLength'))
-        .max(20, t('errors.incorrectChannelNameLength'))
-        .notOneOf(channelsName, t('errors.needUnique')),
+        .min(3, 'errors.incorrectChannelNameLength')
+        .max(20, 'errors.incorrectChannelNameLength')
+        .notOneOf(channelsName, 'errors.needUnique'),
     }),
     signUp: () => yup.object().shape({
       username: yup
         .string()
-        .required(t('errors.requiredField'))
-        .min(3, t('errors.incorrectUsernameLength'))
-        .max(20, t('errors.incorrectUsernameLength')),
+        .required('errors.requiredField')
+        .min(3, 'errors.incorrectUsernameLength')
+        .max(20, 'errors.incorrectUsernameLength'),
       password: yup
         .string()
-        .required(t('errors.requiredField'))
-        .min(6, t('errors.incorrectMinPasswordLength')),
+        .required('errors.requiredField')
+        .min(6, 'errors.incorrectMinPasswordLength'),
       passwordConfirm: yup
         .string()
-        .required(t('errors.requiredField'))
-        .oneOf([yup.ref('password'), null], t('errors.shouldConfirm')),
+        .required('errors.requiredField')
+        .oneOf([yup.ref('password'), null], 'errors.shouldConfirm'),
     }),
   };
   return shemas[shemaName];

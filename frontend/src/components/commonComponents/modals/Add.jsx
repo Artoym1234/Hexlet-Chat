@@ -62,7 +62,7 @@ const Add = ({ handleClose }) => {
                 disabled={formik.isSubmitting}
                 ref={inputRef}
               />
-              <Form.Control.Feedback type="invalid">{formik.errors.nameChannel}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{t(formik.errors.nameChannel)}</Form.Control.Feedback>
               <FloatingLabel
                 controlId="name"
                 label={t('channels.name')}
