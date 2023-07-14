@@ -10,11 +10,11 @@ const channelSlice = createSlice({
   reducers: {
     addChannel: (state, { payload }) => {
       channelsAdapter.addOne(state, payload);
-      if (state.currentChannelId !== payload.id) {
-        const newCurrentChannelId = state.ids[state.ids.length - 1];
-        /* eslint-disable no-param-reassign */
-        state.currentChannelId = newCurrentChannelId;
-      }
+      // if (state.currentChannelId !== payload.id) {
+      // const newCurrentChannelId = state.ids[state.ids.length - 1];
+      /* eslint-disable no-param-reassign */
+      // state.currentChannelId = newCurrentChannelId;
+      // }
     },
     addChannels: channelsAdapter.addMany,
     renameChannel: channelsAdapter.updateOne,
