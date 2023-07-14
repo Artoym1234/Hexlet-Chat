@@ -11,7 +11,7 @@ import ru from './locales/ru.js';
 import App from './components/App.js';
 import store from './slices/index';
 import { actions as messagesAction } from './slices/messagesSlice';
-import { actions as channelAction } from './slices/channelsSlice';
+import { actions as canalAction } from './slices/channelsSlice';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -32,13 +32,13 @@ const init = async () => {
     store.dispatch(messagesAction.addMessage(payload));
   });
   socket.on('newChannel', (payload) => {
-    store.dispatch(channelAction.addChannel(payload));
+    store.dispatch(canalAction.addChannel(payload));
   });
   socket.on('removeChannel', (payload) => {
-    store.dispatch(channelAction.removeChannel(payload.id));
+    store.dispatch(canalAction.removeChannel(payload.id));
   });
   socket.on('renameChannel', (payload) => {
-    store.dispatch(channelAction.renameChannel({ id: payload.id, changes: { name: payload.name } }));
+    store.dispatch(canalAction.renameChannel({ id: payload.id, changes: { name: payload.name } }));
   });
 
   filter.add(filter.getDictionary('ru'));
