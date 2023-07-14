@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import filter from 'leo-profanity';
 import { selectChannelNames } from '../../../slices/channelsSlice';
 import { useChatApi } from '../../contexts/SocketProvider.jsx';
 import { useAuth } from '../../contexts/AuthProvider.jsx';
@@ -30,7 +31,7 @@ const Add = ({ handleClose }) => {
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
-        await chatApi.sendNewChannel(values.nameChannel);
+        await chatApi.sendNewChannel(filter.clean(values.nameChannel));
         handleClose();
         notify('success', t('feedback.channel_add'));
       } catch {

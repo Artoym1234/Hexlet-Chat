@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import { selectors } from '../../../slices/channelsSlice';
 import getValidationSchema from '../validate';
 import { useChatApi } from '../../contexts/SocketProvider.jsx';
@@ -30,7 +31,7 @@ const Rename = ({ handleClose }) => {
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
-        await chatApi.renameChannel(channelId, values.nameChannel);
+        await chatApi.renameChannel(channelId, filter.clean(values.nameChannel));
         notify('success', t('feedback.channel_rename'));
         handleClose();
       } catch (error) {

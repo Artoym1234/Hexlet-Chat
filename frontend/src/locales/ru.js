@@ -77,6 +77,7 @@ export default {
       shouldConfirm: 'Пароли должны совпадать',
       somethingWrong: 'Что-то пошло не так...',
       update: 'Обновить',
+      unknown: 'Неизвестная ошибка',
     },
   },
 };

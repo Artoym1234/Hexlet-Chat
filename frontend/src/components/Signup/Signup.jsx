@@ -37,27 +37,19 @@ const Signup = () => {
     validationSchema: getValidationSchema('signUp')(),
     validateOnChange: true,
 
-    onSubmit: (values) => {
-      const res = axios.post(apiRoutes.signUpPath(), values);
-      res
-        .then((response) => {
-          auth.logIn(response.data);
-          if (response.status === 201) {
-            navigate(pageRoutes.mainPage());
-          }
-        })
-        .catch((err) => {
-          formik.setSubmitting(false);
-          if (err.isAxiosError) {
-            if (err.message === 'Network Error') {
-              notify('error', t('signUp.errors.network_error'));
-              return;
-            }
-            if (err.response.status === 409) {
-              setAuthFailed(true);
-            }
-          }
-        });
+    onSubmit: async (values) => {
+      try {
+        const { data } = await axios.post(apiRoutes.signUpPath(), values);
+        auth.logIn(data);
+        navigate(pageRoutes.mainPage());
+      } catch (err) {
+        const trowAxiosErr = () => {
+          const errorMessage = (err.code === 'ERR_NETWORK') ? 'signUp.errors.network_error' : 'errors.unknown';
+          return notify('error', t(`${errorMessage}`));
+        };
+        const trow = err.response?.status === 409 ? setAuthFailed(true) : trowAxiosErr(err);
+        trow();
+      }
     },
   });
 
@@ -75,7 +67,6 @@ const Signup = () => {
                 <Form.Group className="mb-3">
                   <FloatingLabel controlId="username" label={t('placeholder.username')} className="mb-3">
                     <Form.Control
-                      id="username"
                       type="text"
                       name="username"
                       value={formik.values.username}
@@ -99,7 +90,6 @@ const Signup = () => {
                   <FloatingLabel controlId="password" label={t('placeholder.password')} className="mb-3">
                     <Form.Control
                       name="password"
-                      id="password"
                       type="password"
                       placeholder={t('placeholder.password')}
                       value={formik.values.password}
@@ -122,7 +112,6 @@ const Signup = () => {
                   <FloatingLabel controlId="passwordConfirm" label={t('placeholder.passwordConfirm')} className="mb-3">
                     <Form.Control
                       name="passwordConfirm"
-                      id="passwordConfirm"
                       type="password"
                       placeholder={t('placeholder.passwordConfirm')}
                       value={formik.values.passwordConfirm}

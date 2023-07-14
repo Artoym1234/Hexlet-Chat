@@ -16,7 +16,7 @@ import { useAuth } from '../../contexts/AuthProvider.jsx';
 const InputMessage = () => {
   const { t } = useTranslation();
   const chatApi = useChatApi();
-  const { notify } = useAuth();
+  const { notify, user } = useAuth();
 
   const activeChannelId = useSelector((state) => {
     const { currentChannelId } = state.channels;
@@ -40,7 +40,7 @@ const InputMessage = () => {
       const message = {
         body: values.body,
         channelId: activeChannelId,
-        username: localStorage.username,
+        username: user.username,
       };
       try {
         await chatApi.sendNewMessage(message);

@@ -36,4 +36,5 @@ rules:
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
   functional/no-expression-statements: 0
   functional/no-conditional-statements: 0
+  max-len: ["error", { "code": 122 }]
   

@@ -38,29 +38,25 @@ const LoginForm = () => {
     }),
     validateOnChange: true,
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setAuthFailed(false);
-      const res = axios.post(apiRoutes.loginPath(), values);
-      res
-        .then((response) => {
-          auth.logIn(response.data);
-          if (response.status === 200) {
-            navigate(pageRoutes.mainPage());
+      try {
+        const { data } = await axios.post(apiRoutes.loginPath(), values);
+        auth.logIn(data);
+        navigate(pageRoutes.mainPage());
+      } catch (err) {
+        formik.setSubmitting(false);
+        const trowAxiosErr = () => {
+          const { code } = err;
+          switch (code) {
+            case 'ERR_NETWORK':
+              return auth.notify('error', t('logIn.errors.network_error'));
+            default:
+              return setAuthFailed(true);
           }
-        })
-        .catch((err) => {
-          formik.setSubmitting(false);
-          if (err.isAxiosError) {
-            if (err.message === 'Network Error') {
-              auth.notify('error', t('logIn.errors.network_error'));
-              return;
-            }
-            if (err.response.status === 401) {
-              setAuthFailed(true);
-              inputRef.current.select();
-            }
-          }
-        });
+        };
+        trowAxiosErr();
+      }
     },
   });
 
