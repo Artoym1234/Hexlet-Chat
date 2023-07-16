@@ -19,13 +19,11 @@ const channelSlice = createSlice({
       channelsAdapter.removeOne(state, payload);
       if (state.currentChannelId === payload) {
         const newCurrentChannelId = state.ids[0];
-        /* eslint-disable no-param-reassign */
         state.currentChannelId = newCurrentChannelId;
       }
       channelsAdapter.removeOne(state, payload);
     },
     setCurrentChannelId: (state, { payload }) => {
-      /* eslint-disable no-param-reassign */
       state.currentChannelId = payload;
     },
   },
@@ -33,7 +31,6 @@ const channelSlice = createSlice({
     builder
       .addCase(fetchInitialData.fulfilled, (state, { payload }) => {
         channelsAdapter.setAll(state, payload.channels);
-        /* eslint-disable no-param-reassign */
         state.currentChannelId = payload.currentChannelId;
       });
   },
