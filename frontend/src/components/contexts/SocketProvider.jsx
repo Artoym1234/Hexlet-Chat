@@ -7,7 +7,7 @@ const ChatContext = createContext({});
 const SocketProvider = ({ socket, children }) => {
   const createSocketMessage = useCallback((event, data) => new Promise(
     (resolve, reject) => {
-      socket.timeout(5000).volatile.emit(event, data, (err) => {
+      socket.timeout(3000).volatile.emit(event, data, (err) => {
         if (err) {
           reject(err);
         }
