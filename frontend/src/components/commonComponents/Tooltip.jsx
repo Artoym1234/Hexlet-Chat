@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import Overlay from 'react-bootstrap/Overlay';
 
 const Tooltip = ({ target, show, text }) => (
@@ -7,6 +6,7 @@ const Tooltip = ({ target, show, text }) => (
       placement, arrowProps, show: _show, popper, ...props
     }) => (
       <div
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         style={{
           position: 'absolute',
