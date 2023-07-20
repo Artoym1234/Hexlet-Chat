@@ -9,14 +9,6 @@ const AuthButton = () => {
   const { t } = useTranslation();
   const auth = useAuth();
 
-  /* if (auth.user) {
-    return (
-      <Button variant="primary" onClick={auth.logOut}>
-        {t('header.button_exit')}
-      </Button>
-    );
-  }
-  return null; */
   return (
     auth.user
       ? <Button onClick={auth.logOut} variant="primary">{t('header.button_exit')}</Button>
