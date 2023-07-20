@@ -1,5 +1,5 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-
 import { actions as loadingStateActions } from './loadingSlice';
 
 const initialState = ({

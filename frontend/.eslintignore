@@ -1,4 +1,2 @@
 node_modules
 build
-src/slices/channelsSlice.js
-src/slices/modalSlice.js

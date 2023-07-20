@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import fetchInitialData from './fetchInitialData.js';
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Overlay from 'react-bootstrap/Overlay';
 
 const Tooltip = ({ target, show, text }) => (
