@@ -14,7 +14,13 @@ import { pageRoutes } from '../routes.js';
 
 const PrivateRoute = () => {
   const auth = useAuth();
+
   return auth.user ? <Outlet /> : <Navigate to={pageRoutes.loginPage()} />;
+};
+const PublicRoute = () => {
+  const auth = useAuth();
+
+  return auth.user ? <Navigate to={pageRoutes.mainPage()} /> : <Outlet />;
 };
 
 const App = ({ socket }) => (
@@ -23,8 +29,10 @@ const App = ({ socket }) => (
       <Header />
       <SocketProvider socket={socket}>
         <Routes>
-          <Route path={pageRoutes.loginPage()} element={<LoginPage />} />
-          <Route path={pageRoutes.signUpPage()} element={<Signup />} />
+          <Route element={<PublicRoute />}>
+            <Route path={pageRoutes.loginPage()} element={<LoginPage />} />
+            <Route path={pageRoutes.signUpPage()} element={<Signup />} />
+          </Route>
           <Route element={<PrivateRoute />}>
             <Route path={pageRoutes.mainPage()} element={(<MainPage />)} />
           </Route>

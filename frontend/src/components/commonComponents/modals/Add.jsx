@@ -33,7 +33,6 @@ const Add = ({ handleClose }) => {
     onSubmit: async (values) => {
       try {
         const data = await chatApi.sendNewChannel(filter.clean(values.nameChannel));
-        console.log(data);
         dispatch(channelsActions.setCurrentChannelId(data.id));
         handleClose();
         notify('success', t('feedback.channel_add'));

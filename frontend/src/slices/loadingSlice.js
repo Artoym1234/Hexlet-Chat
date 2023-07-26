@@ -24,7 +24,8 @@ const loadingStateSlice = createSlice({
       .addCase(fetchInitialData.pending, () => stateLoad.load)
       .addCase(fetchInitialData.fulfilled, () => stateLoad.success)
       .addCase(fetchInitialData.rejected, (state, action) => {
-        if (action.payload === 401) {
+        const error = action.payload;
+        if (error.response && error.response.status === 401) {
           return stateLoad.authError;
         }
         return stateLoad.networkError;

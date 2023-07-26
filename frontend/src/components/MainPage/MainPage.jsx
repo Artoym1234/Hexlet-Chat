@@ -30,6 +30,7 @@ const Loading = () => {
 const SomethingWrong = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   return (
     <div className="h-100 d-flex flex-column justify-content-center align-items-center">
       <p className="p-2 fst-italic">{t('errors.somethingWrong')}</p>
@@ -86,13 +87,6 @@ const MainPage = () => {
     default:
       break;
   }
-
-  /* if (loadingState === stateLoad.error) {
-    notify('error', t('feedback.unauthorized'));
-    logOut();
-  } else {
-    notify('error', t('feedback.error_network'));
-  } */
 
   return (
     <>

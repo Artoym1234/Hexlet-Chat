@@ -13,11 +13,7 @@ const fetchInitialData = createAsyncThunk(
       });
       return data;
     } catch (error) {
-      if (error.isAxiosError) {
-        return rejectWithValue(error.response.status);
-      }
-
-      throw error;
+      return rejectWithValue(error);
     }
   },
 );

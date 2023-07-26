@@ -35,8 +35,6 @@ const Signup = () => {
       passwordConfirm: '',
     },
     validationSchema: getValidationSchema('signUp')(),
-    // validateOnChange: false,
-    // validateOnBlur: true,
 
     onSubmit: async (values) => {
       try {
