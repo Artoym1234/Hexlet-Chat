@@ -45,7 +45,7 @@ const LoginForm = () => {
         auth.logIn(data);
         navigate(pageRoutes.mainPage());
       } catch (err) {
-        formik.setSubmitting(false);
+        // formik.setSubmitting(false);
         const trowAxiosErr = () => {
           const { code } = err;
           switch (code) {
@@ -84,10 +84,8 @@ const LoginForm = () => {
                       <Form.Control
                         name="username"
                         type="text"
-                        className={formik.touched.username
-                          && formik.errors.username ? 'is-invalid' : ''}
                         required
-                        isInvalid={!!formik.errors.username}
+                        isInvalid={authFailed || (formik.touched.username && formik.errors.username)}
                         placeholder={t('placeholder.username_login')}
                         autocomplite="username"
                         onChange={formik.handleChange}
@@ -111,9 +109,7 @@ const LoginForm = () => {
                       <Form.Control
                         name="password"
                         type="password"
-                        className={formik.touched.password
-                            && formik.errors.password ? 'is-invalid' : ''}
-                        isInvalid={!!formik.errors.password}
+                        isInvalid={authFailed || (formik.touched.password && formik.errors.password)}
                         required
                         placeholder={t('placeholder.password')}
                         autoсomplite="password"

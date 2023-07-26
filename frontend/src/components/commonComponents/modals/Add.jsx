@@ -3,17 +3,18 @@ import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import filter from 'leo-profanity';
-import { selectChannelNames } from '../../../slices/channelsSlice';
+import { selectChannelNames, actions as channelsActions } from '../../../slices/channelsSlice';
 import { useChatApi } from '../../contexts/SocketProvider.jsx';
 import { useAuth } from '../../contexts/AuthProvider.jsx';
 import getValidationSchema from '../validate';
 
 const Add = ({ handleClose }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const inputRef = useRef();
   const chatApi = useChatApi();
   const { notify } = useAuth();
@@ -30,8 +31,10 @@ const Add = ({ handleClose }) => {
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      await chatApi.sendNewChannel(filter.clean(values.nameChannel));
       try {
+        const data = await chatApi.sendNewChannel(filter.clean(values.nameChannel));
+        console.log(data);
+        dispatch(channelsActions.setCurrentChannelId(data.id));
         handleClose();
         notify('success', t('feedback.channel_add'));
       } catch {

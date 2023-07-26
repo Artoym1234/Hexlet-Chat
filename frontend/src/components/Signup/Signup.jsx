@@ -35,12 +35,14 @@ const Signup = () => {
       passwordConfirm: '',
     },
     validationSchema: getValidationSchema('signUp')(),
-    validateOnChange: true,
+    // validateOnChange: false,
+    // validateOnBlur: true,
 
     onSubmit: async (values) => {
       try {
         const { data } = await axios.post(apiRoutes.signUpPath(), values);
         auth.logIn(data);
+        setAuthFailed(false);
         navigate(pageRoutes.mainPage());
       } catch (err) {
         const trowAxiosErr = () => {
@@ -67,16 +69,14 @@ const Signup = () => {
                 <Form.Group className="mb-3">
                   <FloatingLabel controlId="username" label={t('placeholder.username')} className="mb-3">
                     <Form.Control
-                      type="text"
                       name="username"
+                      autoComplete="username"
                       value={formik.values.username}
                       placeholder={t('placeholder.username')}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       ref={targetUsername}
-                      className={formik.touched.username
-                    && formik.errors.username ? 'is-invalid' : ''}
-                      isInvalid={!!formik.errors.username}
+                      isInvalid={authFailed || (formik.touched.username && formik.errors.username)}
                     />
                   </FloatingLabel>
                   <Tooltip
@@ -95,10 +95,9 @@ const Signup = () => {
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                      autoComplete="current-password"
                       ref={targetPassword}
-                      className={formik.touched.password
-                      && formik.errors.password ? 'is-invalid' : ''}
-                      isInvalid={!!formik.errors.password}
+                      isInvalid={formik.touched.password && formik.errors.password}
                     />
                   </FloatingLabel>
                   <Tooltip
@@ -118,9 +117,8 @@ const Signup = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       ref={targetPasswordConf}
-                      className={formik.touched.username
-                      && formik.errors.username ? 'is-invalid' : ''}
-                      isInvalid={!!formik.errors.passwordConfirm}
+                      autoComplete="current-passwordConfirm"
+                      isInvalid={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
                     />
                   </FloatingLabel>
                   <Tooltip

@@ -7,11 +7,11 @@ const ChatContext = createContext({});
 const SocketProvider = ({ socket, children }) => {
   const createSocketMessage = useCallback((event, data) => new Promise(
     (resolve, reject) => {
-      socket.timeout(3000).volatile.emit(event, data, (err) => {
+      socket.timeout(3000).emit(event, data, (err, response) => {
         if (err) {
           reject(err);
         }
-        resolve();
+        resolve(response.data);
       });
     },
   ), [socket]);

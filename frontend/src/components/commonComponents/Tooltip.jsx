@@ -11,7 +11,7 @@ const Tooltip = ({ target, show, text }) => (
         style={{
           position: 'absolute',
           backgroundColor: 'rgba(255, 100, 100, 0.85)',
-          padding: '2px 10px',
+          padding: '0px 5px',
           color: 'white',
           borderRadius: 3,
           ...props.style,
