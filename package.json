@@ -5,10 +5,10 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "postinstall": "cd frontend && npm ci",
     "build": "npm run build --prefix frontend",
-    "start": "npx start-server -s ./frontend/build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "start-server -s ./frontend/build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd frontend && npm ci"
   },
   "repository": {
     "type": "git",
