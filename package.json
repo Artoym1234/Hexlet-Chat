@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Online chat with channels",
   "main": "src/index.js",
-  "type": "module",
+
   "scripts": {
     "build": "npm run build --prefix frontend",
     "start": "start-server -s ./frontend/build",
