@@ -36,7 +36,14 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -49,11 +56,12 @@
       "last 1 safari version"
     ]
   },
-
+  "start": "serve build -s -n -L -p $PORT",
   "devDependencies": {
-    "@playwright/test": "^1.33.0",
-    "eslint": "^8.38.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin": "^1.0.1",
     "eslint-plugin-functional": "^5.0.8",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
