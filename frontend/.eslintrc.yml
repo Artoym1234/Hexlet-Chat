@@ -1,7 +1,7 @@
 env:
   browser: true
   es2021: true
-  
+
 extends:
   - airbnb
   - eslint:recommended
@@ -13,11 +13,13 @@ parserOptions:
     jsx: true
   ecmaVersion: latest
   sourceType: module
-
+  
 plugins:
   - react
   - react-hooks
-  
+
+
+
 rules:
   import/extensions: 0
   import/no-unresolved: 0
